@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fundpad/utils/const.dart';
 
 typedef StringCallback = String? Function(String?);
 
@@ -35,8 +36,8 @@ class _PasswordFieldState extends State<PasswordField> {
       obscureText: !isShow,
       decoration: InputDecoration(
         hintText: widget.hint,
+        hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
         border: widget.border ?? InputBorder.none,
-        prefixIcon: Icon(Icons.lock_outline, color: widget.prefixIconColor),
         suffixIcon: IconButton(
           padding: EdgeInsets.zero,
           onPressed: () {
@@ -44,9 +45,10 @@ class _PasswordFieldState extends State<PasswordField> {
               isShow = !isShow;
             });
           },
-          icon: Icon(isShow
-              ? Icons.visibility_outlined
-              : Icons.visibility_off_outlined),
+          icon: Icon(
+            isShow ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+            color: COLOR.ORANGE_DARK,
+          ),
         ),
       ),
       validator: widget.validator,

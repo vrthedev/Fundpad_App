@@ -1,11 +1,36 @@
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fundpad/provider/home_provider.dart';
+import 'package:fundpad/utils/globals.dart';
 import 'package:fundpad/view/welcome/splash_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print('Handling a background message ${message.messageId}');
+}
+
+/// Create a [AndroidNotificationChannel] for heads up notifications
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'gonexus_channel', // id
+  'GoNexus Notifications', // title
+  description:
+      'This channel is used for important notifications.', // description
+  importance: Importance.high,
+);
+
+/// Initialize the [FlutterLocalNotificationsPlugin] package.
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 void main() async {
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('google_fonts/OFL.txt');
@@ -14,6 +39,27 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // await Firebase.initializeApp();
+
+  // Set the background messaging handler early on, as a named top-level function
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  /// Create an Android Notification Channel.
+  ///
+  /// We use this channel in the `AndroidManifest.xml` file to override the
+  /// default FCM channel to enable heads up notifications.
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  /// Update the iOS foreground notification presentation options to allow
+  /// heads up notifications.
+  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //   alert: true,
+  //   badge: true,
+  //   sound: true,
+  // );
 
   runApp(const MyApp());
 }
@@ -24,6 +70,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // _getToken();
+    // _initFirebaseMessaging();
+
     return MultiProvider(
       providers: [ChangeNotifierProvider.value(value: HomeProvider())],
       child: Consumer<HomeProvider>(
@@ -45,14 +94,14 @@ class MyApp extends StatelessWidget {
                 actionsIconTheme: IconThemeData(color: Colors.black),
               ),
               visualDensity: VisualDensity.adaptivePlatformDensity,
-              fontFamily: GoogleFonts.nunito().fontFamily,
+              fontFamily: GoogleFonts.poppins().fontFamily,
               // textTheme: GoogleFonts.nunitoTextTheme(
               //   Theme.of(context).textTheme,
               // ),
             ),
             darkTheme: ThemeData(
               brightness: Brightness.dark,
-              fontFamily: GoogleFonts.nunito().fontFamily,
+              fontFamily: GoogleFonts.poppins().fontFamily,
             ),
             themeMode: provider.getThemeMode(),
             home: const SplashPage(),
@@ -60,5 +109,42 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> _getToken() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    Globals.deviceToken = token ?? "";
+  }
+
+  void _initFirebaseMessaging() {
+    FirebaseMessaging.instance.requestPermission();
+
+    if (!Platform.isAndroid) return;
+
+    var initializationSettingsAndroid =
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    var flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+            ),
+          ),
+        );
+      }
+    });
   }
 }

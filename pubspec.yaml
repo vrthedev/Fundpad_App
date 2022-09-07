@@ -41,6 +41,13 @@ dependencies:
   shared_preferences: ^2.0.15
   email_validator: ^2.1.17
   country_code_picker: ^2.0.2
+  qr_flutter: ^4.0.0
+  mobile_scanner: ^1.1.2
+  firebase_messaging: ^13.0.0
+  flutter_local_notifications: ^9.9.1
+  future_progress_dialog: ^0.2.0
+  percent_indicator: ^4.2.1
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:

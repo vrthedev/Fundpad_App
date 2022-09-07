@@ -4,9 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/util.dart';
-import 'package:fundpad/view/main_page.dart';
 import 'package:fundpad/view/welcome/login_page.dart';
+import 'package:fundpad/view/welcome/scan_code.dart';
+import 'package:fundpad/widget/border_round.dart';
+import 'package:fundpad/widget/button_round.dart';
 import 'package:fundpad/widget/password_field.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -34,34 +37,30 @@ class _SignupPageState extends State<SignupPage> {
       body: Center(
         child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "SIGN UP",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: COLOR.LIGHT_BLUE,
-                      ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "Create an account",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
-                    const SizedBox(height: 16),
-                    TextFormField(
+                  ),
+                  const SizedBox(height: 32),
+                  BorderRound(
+                    horizontal: 16,
+                    vertical: 2,
+                    child: TextFormField(
                       controller: teEmail,
-                      // style: const TextStyle(color: sdTextPrimaryColor),
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
-                          hintText: 'Email',
-                          // hintStyle: const TextStyle(color: sdTextSecondaryColor),
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.email_outlined,
-                            color: COLOR.LIGHT_BLUE2,
-                          )),
+                        hintText: 'Email',
+                        hintStyle: TextStyle(color: COLOR.TEXT_HINT),
+                        border: InputBorder.none,
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter email address';
@@ -71,18 +70,18 @@ class _SignupPageState extends State<SignupPage> {
                         return null;
                       },
                     ),
-                    const Divider(height: 4),
-                    TextFormField(
+                  ),
+                  const SizedBox(height: 8),
+                  BorderRound(
+                    horizontal: 16,
+                    vertical: 2,
+                    child: TextFormField(
                       controller: teUsername,
-                      // style: const TextStyle(color: sdTextPrimaryColor),
                       decoration: const InputDecoration(
-                          hintText: 'Username',
-                          // hintStyle: const TextStyle(color: sdTextSecondaryColor),
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.person_outline,
-                            color: COLOR.LIGHT_BLUE2,
-                          )),
+                        hintText: 'Username',
+                        hintStyle: TextStyle(color: COLOR.TEXT_HINT),
+                        border: InputBorder.none,
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter username';
@@ -90,12 +89,14 @@ class _SignupPageState extends State<SignupPage> {
                         return null;
                       },
                     ),
-                    const Divider(height: 4),
-                    PasswordField(
+                  ),
+                  const SizedBox(height: 8),
+                  BorderRound(
+                    horizontal: 16,
+                    vertical: 2,
+                    child: PasswordField(
                       controller: tePassword,
-                      // textColor: sdTextPrimaryColor,
                       hint: "Password",
-                      prefixIconColor: COLOR.LIGHT_BLUE2,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter password';
@@ -105,12 +106,14 @@ class _SignupPageState extends State<SignupPage> {
                         return null;
                       },
                     ),
-                    const Divider(height: 4),
-                    PasswordField(
+                  ),
+                  const SizedBox(height: 8),
+                  BorderRound(
+                    horizontal: 16,
+                    vertical: 2,
+                    child: PasswordField(
                       controller: teCPassword,
-                      // textColor: sdTextPrimaryColor,
                       hint: "Confirm Password",
-                      prefixIconColor: COLOR.LIGHT_BLUE2,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter confirm password';
@@ -120,19 +123,36 @@ class _SignupPageState extends State<SignupPage> {
                         return null;
                       },
                     ),
-                    const Divider(height: 4),
-                    TextFormField(
+                  ),
+                  const SizedBox(height: 8),
+                  BorderRound(
+                    horizontal: 16,
+                    vertical: 2,
+                    child: TextFormField(
                       controller: teReferralCode,
-                      // style: const TextStyle(color: sdTextPrimaryColor),
-                      // keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(
-                          hintText: 'Referral code',
-                          // hintStyle: const TextStyle(color: sdTextSecondaryColor),
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.code,
-                            color: COLOR.LIGHT_BLUE2,
-                          )),
+                      decoration: InputDecoration(
+                        hintText: 'Referral code',
+                        hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
+                        border: InputBorder.none,
+                        suffixIcon: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              CupertinoPageRoute(
+                                builder: (context) => ScanCode(
+                                  callback: (code) {
+                                    teReferralCode.text = code;
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.qr_code,
+                            color: COLOR.ORANGE_DARK,
+                          ),
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter referral code';
@@ -140,8 +160,12 @@ class _SignupPageState extends State<SignupPage> {
                         return null;
                       },
                     ),
-                    const Divider(height: 4),
-                    Row(
+                  ),
+                  const SizedBox(height: 8),
+                  BorderRound(
+                    horizontal: 16,
+                    vertical: 2,
+                    child: Row(
                       children: [
                         CountryCodePicker(
                           onChanged: (code) {
@@ -170,112 +194,79 @@ class _SignupPageState extends State<SignupPage> {
                         )
                       ],
                     ),
-                    const Divider(height: 4),
-                    TextFormField(
+                  ),
+                  const SizedBox(height: 8),
+                  BorderRound(
+                    horizontal: 16,
+                    vertical: 2,
+                    child: TextFormField(
                       controller: teWallet,
-                      // style: const TextStyle(color: sdTextPrimaryColor),
                       decoration: const InputDecoration(
-                          hintText: 'Wallet address',
-                          // hintStyle: const TextStyle(color: sdTextSecondaryColor),
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.wallet_membership,
-                            color: COLOR.LIGHT_BLUE2,
-                          )),
-                    ),
-                    const Divider(height: 4),
-                    TextFormField(
-                      controller: teEmail,
-                      // style: const TextStyle(color: sdTextPrimaryColor),
-                      decoration: const InputDecoration(
-                          hintText: 'Home Address',
-                          // hintStyle: const TextStyle(color: sdTextSecondaryColor),
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.location_on,
-                            color: COLOR.LIGHT_BLUE2,
-                          )),
-                    ),
-                    const SizedBox(height: 8),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          signup();
-                        }
-                      },
-                      child: const Text(
-                        "SIGN UP",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: COLOR.LIGHT_BLUE,
-                        minimumSize: const Size(double.infinity, 40),
+                        hintText: 'Wallet address',
+                        hintStyle: TextStyle(color: COLOR.TEXT_HINT),
+                        border: InputBorder.none,
                       ),
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Already have an account?',
-                          style: TextStyle(color: COLOR.TEXT_HINT),
-                        ),
-                        const SizedBox(width: 16),
-                        TextButton(
-                          onPressed: () =>
-                              Navigator.of(context).pushReplacement(
-                            CupertinoPageRoute(
-                              builder: (context) => const LoginPage(),
-                            ),
-                          ),
-                          child: const Text(
-                            'SIGN IN',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
-                      ],
+                  ),
+                  const SizedBox(height: 8),
+                  BorderRound(
+                    horizontal: 16,
+                    vertical: 2,
+                    child: TextFormField(
+                      controller: teHomeAddress,
+                      decoration: const InputDecoration(
+                        hintText: 'Home Address',
+                        hintStyle: TextStyle(color: COLOR.TEXT_HINT),
+                        border: InputBorder.none,
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 16),
+                  ButtonRound(
+                    callback: () {
+                      if (_formKey.currentState!.validate()) {
+                        signup();
+                      }
+                    },
+                    child: const Text(
+                      "Register Now",
+                      style: TextStyle(
+                        letterSpacing: 1.05,
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'Already have an account?',
+                        style: TextStyle(color: COLOR.TEXT_HINT),
+                      ),
+                      const SizedBox(width: 16),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pushReplacement(
+                          CupertinoPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        ),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: COLOR.BLUE_DARK,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             )),
       ),
-      // persistentFooterButtons: [
-      //   Container(
-      //     height: 40,
-      //     padding: const EdgeInsets.symmetric(horizontal: 15),
-      //     width: MediaQuery.of(context).copyWith().size.width,
-      //     child: Row(
-      //       crossAxisAlignment: CrossAxisAlignment.center,
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: [
-      //         const Text(
-      //           'Already have an account?',
-      //           style: TextStyle(color: COLOR.TEXT_HINT),
-      //         ),
-      //         TextButton(
-      //           onPressed: () => Navigator.of(context).pushReplacement(
-      //             CupertinoPageRoute(
-      //               builder: (context) => const LoginPage(),
-      //             ),
-      //           ),
-      //           child: const Text(
-      //             'SIGN IN',
-      //             style: TextStyle(
-      //               fontWeight: FontWeight.bold,
-      //               color: COLOR.LIGHT_BLUE,
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   )
-      // ],
     ));
   }
 
@@ -283,14 +274,32 @@ class _SignupPageState extends State<SignupPage> {
     FocusScope.of(context).unfocus();
 
     String phone = tePhone.text.trim();
-    if (phone.isNotEmpty) {
-      String fullPhone = code.dialCode! + tePhone.text.trim();
-    }
 
-    Navigator.of(context).pushReplacement(
-      CupertinoPageRoute(
-        builder: (context) => const MainPage(),
+    String result = await showDialog(
+      context: context,
+      builder: (context) => FutureProgressDialog(
+        Util.signup(
+          teUsername.text,
+          teEmail.text,
+          tePassword.text,
+          teReferralCode.text,
+          dialCode: phone.isEmpty ? null : code.dialCode,
+          phone: phone.isEmpty ? null : phone,
+          wallet: teWallet.text,
+          address: teHomeAddress.text,
+        ),
       ),
     );
+
+    if (result == "Success") {
+      showToast("Your account is created. Please login");
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(
+          builder: (context) => const LoginPage(),
+        ),
+      );
+    } else {
+      showToast(result);
+    }
   }
 }

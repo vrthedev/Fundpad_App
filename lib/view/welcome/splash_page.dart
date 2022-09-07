@@ -33,7 +33,7 @@ class _SplashPageState extends State<SplashPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Image.asset('images/logo.png', width: 120),
+            Image.asset('images/logo.png', width: 200),
             // Container(
             //   margin: const EdgeInsets.only(top: 16),
             //   child: const Text(

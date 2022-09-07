@@ -6,7 +6,10 @@ import 'package:fundpad/utils/util.dart';
 import 'package:fundpad/view/main_page.dart';
 import 'package:fundpad/view/welcome/forgot_password_page.dart';
 import 'package:fundpad/view/welcome/signup_page.dart';
+import 'package:fundpad/widget/border_round.dart';
+import 'package:fundpad/widget/button_round.dart';
 import 'package:fundpad/widget/password_field.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -27,34 +30,29 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "LOGIN",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: COLOR.LIGHT_BLUE,
-                      ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "Welcome back",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
-                    const SizedBox(height: 16),
-                    TextFormField(
+                  ),
+                  const SizedBox(height: 32),
+                  BorderRound(
+                    horizontal: 16,
+                    vertical: 2,
+                    child: TextFormField(
                       controller: teEmail,
-                      // style: const TextStyle(color: sdTextPrimaryColor),
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         hintText: 'Email',
-                        // hintStyle: const TextStyle(color: sdTextSecondaryColor),
+                        hintStyle: TextStyle(color: COLOR.TEXT_HINT),
                         border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.email_outlined,
-                          color: COLOR.LIGHT_BLUE2,
-                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -65,136 +63,113 @@ class _LoginPageState extends State<LoginPage> {
                         return null;
                       },
                     ),
-                    const Divider(height: 4),
-                    PasswordField(
+                  ),
+                  const SizedBox(height: 16),
+                  BorderRound(
+                    horizontal: 16,
+                    vertical: 2,
+                    child: PasswordField(
                       controller: tePassword,
-                      // textColor: sdTextPrimaryColor,
                       hint: "Password",
-                      prefixIconColor: COLOR.LIGHT_BLUE2,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter password';
-                        } else if (!Util.isValidatePassword(value)) {
-                          return '6-32 Chars: Minumum 1 Upper,1 Lower,1 Special Char & 1 Number';
                         }
+                        // else if (!Util.isValidatePassword(value)) {
+                        //   return '6-32 Chars: Minumum 1 Upper,1 Lower,1 Special Char & 1 Number';
+                        // }
                         return null;
                       },
                     ),
-                    const Divider(height: 4),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            CupertinoPageRoute(
-                              builder: (context) => ForgotPasswordPage(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Forgot password?",
-                          style: TextStyle(color: COLOR.LIGHT_BLUE),
-                        ),
-                        style: TextButton.styleFrom(
-                          primary: Colors.black,
-                          textStyle: const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    ElevatedButton(
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          login();
-                        }
+                        Navigator.of(context).push(
+                          CupertinoPageRoute(
+                            builder: (context) => ForgotPasswordPage(),
+                          ),
+                        );
                       },
                       child: const Text(
-                        "SIGN IN",
-                        style: TextStyle(
-                          fontSize: 16,
+                        "Forgot password?",
+                      ),
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
+                          color: COLOR.BLUE_DARK,
                         ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        primary: COLOR.LIGHT_BLUE,
-                        minimumSize: const Size(double.infinity, 40),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ButtonRound(
+                    callback: () {
+                      if (_formKey.currentState!.validate()) {
+                        login();
+                      }
+                    },
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        letterSpacing: 1.05,
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Don\'t have an account?',
-                          style: TextStyle(color: COLOR.TEXT_HINT),
-                        ),
-                        const SizedBox(width: 8),
-                        TextButton(
-                          onPressed: () =>
-                              Navigator.of(context).pushReplacement(
-                            CupertinoPageRoute(
-                              builder: (context) => const SignupPage(),
-                            ),
-                          ),
-                          child: const Text(
-                            'REGISTER',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
-                            ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'Don\'t have an account?',
+                        style: TextStyle(color: COLOR.TEXT_HINT),
+                      ),
+                      const SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pushReplacement(
+                          CupertinoPageRoute(
+                            builder: (context) => const SignupPage(),
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                        child: const Text(
+                          'Register',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: COLOR.BLUE_DARK,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             )),
       ),
-      // persistentFooterButtons: [
-      //   Container(
-      //     height: 40,
-      //     padding: const EdgeInsets.symmetric(horizontal: 15),
-      //     width: MediaQuery.of(context).copyWith().size.width,
-      //     child: Row(
-      //       crossAxisAlignment: CrossAxisAlignment.center,
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: [
-      //         const Text(
-      //           'Don\'t have an account?',
-      //           style: TextStyle(color: COLOR.TEXT_HINT),
-      //         ),
-      //         TextButton(
-      //           onPressed: () => Navigator.of(context).pushReplacement(
-      //             CupertinoPageRoute(
-      //               builder: (context) => const SignupPage(),
-      //             ),
-      //           ),
-      //           child: const Text(
-      //             'REGISTER',
-      //             style: TextStyle(
-      //               fontWeight: FontWeight.bold,
-      //               color: COLOR.LIGHT_BLUE,
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   )
-      // ],
     ));
   }
 
   void login() async {
     FocusScope.of(context).unfocus();
 
-    Navigator.of(context).pushReplacement(
-      CupertinoPageRoute(
-        builder: (context) => const MainPage(),
+    String result = await showDialog(
+      context: context,
+      builder: (context) => FutureProgressDialog(
+        Util.login(teEmail.text, tePassword.text),
       ),
     );
+
+    if (result == "Success") {
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(
+          builder: (context) => const MainPage(),
+        ),
+      );
+    } else {
+      showToast(result);
+    }
   }
 }
