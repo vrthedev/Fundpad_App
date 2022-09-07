@@ -39,10 +39,10 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   // Set the background messaging handler early on, as a named top-level function
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   /// Create an Android Notification Channel.
   ///
@@ -55,11 +55,11 @@ void main() async {
 
   /// Update the iOS foreground notification presentation options to allow
   /// heads up notifications.
-  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //   alert: true,
-  //   badge: true,
-  //   sound: true,
-  // );
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
 
   runApp(const MyApp());
 }
@@ -70,8 +70,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // _getToken();
-    // _initFirebaseMessaging();
+    _getToken();
+    _initFirebaseMessaging();
 
     return MultiProvider(
       providers: [ChangeNotifierProvider.value(value: HomeProvider())],

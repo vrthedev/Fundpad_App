@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "486957381645",
+    "project_id": "legacy-app-53b6d",
+    "storage_bucket": "legacy-app-53b6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486957381645:android:2b976615c4552c4582fd44",
+        "android_client_info": {
+          "package_name": "com.legacy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486957381645-tqpjppilmgil3mmo7hfbmhr1cse1756f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.legacy",
+            "certificate_hash": "ca9723c89eb156c4476b0bf54d445f3140d49e1c"
+          }
+        },
+        {
+          "client_id": "486957381645-5ugggrjk3v48a1ag3bnhutviqrvf13ur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH_SyPaJc4sLoczu7_UVb3ksSJEohSbK4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486957381645-5ugggrjk3v48a1ag3bnhutviqrvf13ur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
