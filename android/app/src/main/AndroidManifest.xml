@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
    <application
-        android:label="Fundpad"
+        android:label="Legacy"
         android:name="${applicationName}"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
