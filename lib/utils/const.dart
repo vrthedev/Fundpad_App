@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-const String BASE_URL = "http://167.99.224.239:8000/api";
+const String BASE_URL = "http://159.223.141.69:8000/api";
 // const String BASE_URL = "http://10.10.11.153:8000";
 
 class COLOR {
