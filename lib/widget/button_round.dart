@@ -6,17 +6,16 @@ class ButtonRound extends StatelessWidget {
     Key? key,
     required this.child,
     this.width,
+    this.height,
     this.radius,
-    this.gradient,
-    this.shadow,
+    this.color,
     this.callback,
   }) : super(key: key);
 
   final Widget child;
-  final double? width;
-  final double? radius;
-  final List<Color>? gradient;
-  final Color? shadow;
+  final double? width, height, radius;
+
+  final Color? color;
   final VoidCallback? callback;
 
   @override
@@ -25,22 +24,11 @@ class ButtonRound extends StatelessWidget {
       onTap: callback,
       child: Container(
         width: width ?? double.infinity,
-        height: 63,
+        height: height ?? 63,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(radius ?? 38),
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: gradient ?? [COLOR.BLUE_LIGHT, COLOR.BLUE_DARK]),
-          boxShadow: [
-            BoxShadow(
-              color: shadow ?? COLOR.BLUE_DARK.withOpacity(0.25),
-              offset: const Offset(0, 1),
-              blurRadius: 4,
-              spreadRadius: 0,
-            )
-          ],
+          color: color ?? COLOR.ORANGE_PRIMARY,
         ),
         child: child,
       ),

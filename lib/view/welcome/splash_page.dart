@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/view/welcome/login_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -29,20 +30,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: COLOR.SPLASH_BACKGROUND,
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Image.asset('images/logo.png', width: 200),
-            // Container(
-            //   margin: const EdgeInsets.only(top: 16),
-            //   child: const Text(
-            //     "Fundpad",
-            //     style: TextStyle(fontSize: 25, color: Colors.white),
-            //   ),
-            // ),
-          ],
-        ),
+        child: Image.asset('images/logo.png'),
       ),
     );
   }

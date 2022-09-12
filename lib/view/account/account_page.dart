@@ -6,8 +6,7 @@ import 'package:fundpad/utils/globals.dart';
 import 'package:fundpad/utils/util.dart';
 import 'package:fundpad/view/account/commission_page.dart';
 import 'package:fundpad/view/account/profits_page.dart';
-import 'package:fundpad/widget/back_widget.dart';
-import 'package:fundpad/widget/button_circle.dart';
+import 'package:fundpad/view/account/referral_detail.dart';
 import 'package:fundpad/widget/referral_info.dart';
 
 class AccountPage extends StatefulWidget {
@@ -26,174 +25,183 @@ class _AccountPageState extends State<AccountPage> {
           if (snapshot.hasData) {
             AccountInfo account = snapshot.data!;
 
-            int pledgesCount =
-                account.pledges.where((element) => element.status == 1).length;
+            // int pledgesCount =
+            //     account.pledges.where((element) => element.status == 1).length;
 
-            return Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
                       children: [
-                        const ButtonCircle(
-                          child: Icon(
-                            Icons.account_balance_outlined,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "$pledgesCount Pledges",
-                                style: const TextStyle(
-                                  fontSize: 14,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                constraints:
+                                    const BoxConstraints(minHeight: 140),
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(color: COLOR.BLUE_PRIMARY),
+                                ),
+                                alignment: Alignment.center,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset("images/ic_income.png"),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "\$" +
+                                          Util.formattedCommaString(account
+                                              .pledgesSum
+                                              .toStringAsFixed(2)),
+                                      style: const TextStyle(
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const Text(
+                                      "My Balance",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const Text(
-                                "Total Balance",
-                                style: TextStyle(
-                                  letterSpacing: 1.05,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Container(
+                                constraints:
+                                    const BoxConstraints(minHeight: 140),
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  border:
+                                      Border.all(color: COLOR.ORANGE_PRIMARY),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Text(
-                          "\$" +
-                              Util.formattedCommaString(
-                                  account.pledgesSum.toStringAsFixed(2)),
-                          style: const TextStyle(
-                            letterSpacing: 1.05,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: BackWidget(
-                            callback: () {
-                              Navigator.of(context).push(
-                                CupertinoPageRoute(
-                                  builder: (context) => ProfitsPage(
-                                    sum: account.investorSum,
-                                    payouts: account.investorPayouts,
-                                  ),
-                                ),
-                              );
-                            },
-                            padding: 8,
-                            child: Row(
-                              children: [
-                                ButtonCircle(
-                                  gradient: const [
-                                    COLOR.ORANGE_LIGHT,
-                                    COLOR.ORANGE_DARK
+                                alignment: Alignment.center,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset("images/ic_referral.png"),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "\$" +
+                                          Util.formattedCommaString(account
+                                              .referralSum
+                                              .toStringAsFixed(2)),
+                                      style: const TextStyle(
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const Text(
+                                      "Referral Balance",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                      ),
+                                    ),
                                   ],
-                                  shadow: COLOR.ORANGE_DARK.withOpacity(0.25),
-                                  child: const Icon(
-                                    Icons.storefront_outlined,
-                                    color: Colors.white,
-                                  ),
                                 ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Profits",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      Text(
-                                        "\$" +
-                                            Util.formattedCommaString(account
-                                                .investorSum
-                                                .toStringAsFixed(2)),
-                                        style: const TextStyle(
-                                          letterSpacing: 1.05,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              CupertinoPageRoute(
+                                builder: (context) => ProfitsPage(
+                                  sum: account.investorSum,
+                                  payouts: account.investorPayouts,
                                 ),
-                              ],
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Profits",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: BackWidget(
-                            callback: () {
-                              Navigator.of(context).push(
-                                CupertinoPageRoute(
-                                  builder: (context) => CommissionPage(
-                                    sum: account.referralSum,
-                                    payouts: account.referralPayouts,
-                                  ),
-                                ),
-                              );
-                            },
-                            padding: 8,
-                            child: Row(
-                              children: [
-                                const ButtonCircle(
-                                  child: Icon(
-                                    Icons.wallet_giftcard,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Commissions",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      Text(
-                                        "\$" +
-                                            Util.formattedCommaString(account
-                                                .referralSum
-                                                .toStringAsFixed(2)),
-                                        style: const TextStyle(
-                                          letterSpacing: 1.05,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
                             ),
+                            minimumSize: const Size(double.infinity, 60),
+                            primary: COLOR.ORANGE_PRIMARY,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              CupertinoPageRoute(
+                                builder: (context) => CommissionPage(
+                                  sum: account.referralSum,
+                                  payouts: account.referralPayouts,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Monthly Commissions",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            minimumSize: const Size(double.infinity, 60),
+                            primary: COLOR.BLUE_PRIMARY,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              CupertinoPageRoute(
+                                builder: (context) => const ReferralDetail(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Referral Commissions",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            minimumSize: const Size(double.infinity, 60),
+                            primary: COLOR.BLUE_PRIMARY,
                           ),
                         ),
                       ],
                     ),
-                    ReferralInfo(code: Globals.currentUser!.referralCode),
-                  ],
-                ));
+                  ),
+                  const SizedBox(height: 16),
+                  ReferralInfo(code: Globals.currentUser!.referralCode),
+                ],
+              ),
+            );
           } else if (snapshot.hasError) {
             return Container();
             // return Padding(

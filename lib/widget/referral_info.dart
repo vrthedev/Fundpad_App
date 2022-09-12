@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fundpad/provider/home_provider.dart';
 import 'package:fundpad/utils/const.dart';
+import 'package:fundpad/utils/globals.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ReferralInfo extends StatelessWidget {
@@ -10,60 +13,80 @@ class ReferralInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+    final provider = Provider.of<HomeProvider>(context);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+      decoration: BoxDecoration(
+        color: provider.getThemeMode() == ThemeMode.dark
+            ? COLOR.BLACK_BACK
+            : Colors.white,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [COLOR.BLUE_LIGHT, COLOR.BLUE_DARK]),
-            ),
-            child: const Text(
-              "Referral Info",
-              style: TextStyle(
-                letterSpacing: 1.05,
-                fontWeight: FontWeight.w600,
-                fontSize: 18,
-                color: Colors.white,
-              ),
+          const Text(
+            "Referral Info",
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
             ),
           ),
           const SizedBox(height: 16),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              QrImage(
-                data: code,
-                version: QrVersions.auto,
-                size: 160,
-              ),
-              Row(mainAxisSize: MainAxisSize.min, children: [
+          Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: const Color(0xFF0e1446))),
+            child: QrImage(
+              data: code,
+              version: QrVersions.auto,
+              size: 80,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Row(mainAxisSize: MainAxisSize.min, children: [
+            Image.asset("images/ic_man.png", width: 40),
+            const SizedBox(width: 16),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  Globals.currentUser!.fullname,
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w600),
+                ),
                 Text(
                   code,
                   style: const TextStyle(
-                      letterSpacing: 1.05,
-                      fontSize: 16,
+                      color: Color(0xff93989F),
+                      fontSize: 12,
                       fontWeight: FontWeight.w500),
                 ),
-                IconButton(
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: code));
-                  },
-                  icon: const Icon(Icons.copy),
+              ],
+            ),
+            const SizedBox(width: 16),
+            InkWell(
+              onTap: () {
+                Clipboard.setData(ClipboardData(text: code));
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: provider.getThemeMode() == ThemeMode.dark
+                      ? COLOR.BACK_DARK
+                      : const Color(0xff0E1446),
                 ),
-              ])
-            ],
-          ),
+                alignment: Alignment.center,
+                child: Image.asset("images/ic_copy.png"),
+              ),
+            ),
+          ]),
         ],
       ),
     );

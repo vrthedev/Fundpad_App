@@ -31,12 +31,12 @@ class BackWidget extends StatelessWidget {
                 : COLOR.BACK_LIGHT,
             boxShadow: [
               BoxShadow(
-                color: provider.getThemeMode() == ThemeMode.dark
-                    ? COLOR.BACK_LIGHT.withOpacity(0.25)
-                    : COLOR.BACK_DARK.withOpacity(0.25),
-                offset: const Offset(0, 1),
-                blurRadius: 4,
+                offset: const Offset(0, 34),
+                blurRadius: 54,
                 spreadRadius: 0,
+                color: provider.getThemeMode() == ThemeMode.dark
+                    ? const Color(0xff141414)
+                    : const Color(0xffEDEEF3),
               )
             ],
           ),

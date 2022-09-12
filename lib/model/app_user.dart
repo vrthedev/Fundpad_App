@@ -8,6 +8,7 @@ class AppUser {
   String address;
   String dialcode;
   String phone;
+  bool notificationActive;
   DateTime createdAt;
 
   AppUser({
@@ -19,6 +20,7 @@ class AppUser {
     required this.wallet,
     required this.dialcode,
     required this.phone,
+    required this.notificationActive,
     required this.createdAt,
   });
 
@@ -32,6 +34,7 @@ class AppUser {
       'wallet': wallet,
       'dialcode': dialcode,
       'phone': phone,
+      'notification_active': notificationActive,
       'createdAt': createdAt,
     };
   }
@@ -46,6 +49,7 @@ class AppUser {
       wallet: map['wallet'] ?? "",
       dialcode: map['dialcode'] ?? "",
       phone: map['phone'] ?? "",
+      notificationActive: map['notification_active'] ?? false,
       createdAt: (map['created_at'] == null)
           ? DateTime(2022)
           : (map['createdAt'] is DateTime)

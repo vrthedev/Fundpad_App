@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fundpad/model/project.dart';
+import 'package:fundpad/provider/home_provider.dart';
 import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/globals.dart';
 import 'package:fundpad/utils/util.dart';
-import 'package:fundpad/widget/border_round.dart';
-import 'package:fundpad/widget/button_round.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class PledgePage extends StatefulWidget {
-  const PledgePage({Key? key}) : super(key: key);
+  const PledgePage({Key? key, required this.project}) : super(key: key);
+
+  final Project project;
 
   @override
   State<PledgePage> createState() => _PledgePageState();
@@ -23,14 +27,21 @@ class _PledgePageState extends State<PledgePage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<HomeProvider>(context);
+
     return Scaffold(
-      backgroundColor: COLOR.BLUE_LIGHT,
+      backgroundColor: const Color(0xff0E1446),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: COLOR.BLUE_LIGHT,
-        title: const Text(
+        backgroundColor: const Color(0xff0E1446),
+        centerTitle: true,
+        title: Text(
           "Pledge",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 24,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+              color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -39,7 +50,9 @@ class _PledgePageState extends State<PledgePage> {
         height: double.infinity,
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            color: Theme.of(context).scaffoldBackgroundColor),
+            color: provider.getThemeMode() == ThemeMode.dark
+                ? const Color(0xff0F0F0F)
+                : const Color(0xffFBFCFF)),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Form(
@@ -47,6 +60,16 @@ class _PledgePageState extends State<PledgePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Text(
+                  "My Pledge",
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  "How much would you like to Pledge? Min \$500",
+                  style: TextStyle(color: COLOR.TEXT_HINT),
+                ),
+                const SizedBox(height: 4),
                 const Text(
                   "All payments in USDT TRC20 only",
                   style: TextStyle(color: COLOR.TEXT_HINT),
@@ -63,13 +86,13 @@ class _PledgePageState extends State<PledgePage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       QrImage(
-                        data: Globals.currentUser!.referralCode,
+                        data: widget.project.depositAddress,
                         version: QrVersions.auto,
-                        size: 160,
+                        size: 80,
                       ),
                       Row(mainAxisSize: MainAxisSize.min, children: [
                         Text(
-                          Globals.currentUser!.referralCode,
+                          widget.project.depositAddress,
                           style: const TextStyle(
                               letterSpacing: 1.05,
                               fontSize: 16,
@@ -78,7 +101,7 @@ class _PledgePageState extends State<PledgePage> {
                         IconButton(
                           onPressed: () {
                             Clipboard.setData(ClipboardData(
-                                text: Globals.currentUser!.referralCode));
+                                text: widget.project.depositAddress));
                           },
                           icon: const Icon(Icons.copy),
                         ),
@@ -92,44 +115,62 @@ class _PledgePageState extends State<PledgePage> {
                   style: TextStyle(color: COLOR.TEXT_HINT),
                 ),
                 const SizedBox(height: 8),
-                BorderRound(
-                  horizontal: 16,
-                  vertical: 2,
-                  child: TextFormField(
-                    controller: teTransaction,
-                    decoration: const InputDecoration(
-                      hintText: 'Transaction ID',
-                      hintStyle: TextStyle(color: COLOR.TEXT_HINT),
-                      border: InputBorder.none,
+                TextFormField(
+                  controller: teTransaction,
+                  decoration: InputDecoration(
+                    hintText: 'Transaction ID',
+                    hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                      borderSide: const BorderSide(
+                        color: COLOR.BLUE_SECONDARY,
+                        width: 1.5,
+                      ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter Transaction ID';
-                      }
-                      return null;
-                    },
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: COLOR.GRAY_BORDER,
+                        width: 1.5,
+                      ),
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Transaction ID';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
-                BorderRound(
-                  horizontal: 16,
-                  vertical: 2,
-                  child: TextFormField(
-                    controller: teAmount,
-                    decoration: const InputDecoration(
-                      hintText: 'Amount',
-                      hintStyle: TextStyle(color: COLOR.TEXT_HINT),
-                      border: InputBorder.none,
+                TextFormField(
+                  controller: teAmount,
+                  decoration: InputDecoration(
+                    hintText: 'Amount',
+                    hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                      borderSide: const BorderSide(
+                        color: COLOR.BLUE_SECONDARY,
+                        width: 1.5,
+                      ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter Transaction ID';
-                      } else if (!Util.isNumeric(value)) {
-                        return "Invalid amount";
-                      }
-                      return null;
-                    },
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: COLOR.GRAY_BORDER,
+                        width: 1.5,
+                      ),
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Transaction ID';
+                    } else if (!Util.isNumeric(value)) {
+                      return "Invalid amount";
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
                 const Text(
@@ -137,27 +178,36 @@ class _PledgePageState extends State<PledgePage> {
                   style: TextStyle(color: COLOR.TEXT_HINT),
                 ),
                 const SizedBox(height: 8),
-                BorderRound(
-                  horizontal: 16,
-                  vertical: 2,
-                  child: TextFormField(
-                    controller: teWallet,
-                    decoration: const InputDecoration(
-                      hintText: 'Wallet address',
-                      hintStyle: TextStyle(color: COLOR.TEXT_HINT),
-                      border: InputBorder.none,
+                TextFormField(
+                  controller: teWallet,
+                  decoration: InputDecoration(
+                    hintText: 'Wallet address',
+                    hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                      borderSide: const BorderSide(
+                        color: COLOR.BLUE_SECONDARY,
+                        width: 1.5,
+                      ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter Wallet address';
-                      }
-                      return null;
-                    },
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: COLOR.GRAY_BORDER,
+                        width: 1.5,
+                      ),
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Wallet address';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
-                ButtonRound(
-                  callback: () {
+                ElevatedButton(
+                  onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       createPledge();
                     }
@@ -165,11 +215,17 @@ class _PledgePageState extends State<PledgePage> {
                   child: const Text(
                     "Submit",
                     style: TextStyle(
-                      letterSpacing: 1.05,
-                      fontSize: 16,
+                      fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    minimumSize: const Size(double.infinity, 64),
+                    primary: const Color(0xff0E1446),
                   ),
                 ),
               ],

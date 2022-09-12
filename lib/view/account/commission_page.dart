@@ -6,6 +6,7 @@ import 'package:fundpad/utils/util.dart';
 import 'package:fundpad/view/account/referral_detail.dart';
 import 'package:fundpad/widget/back_widget.dart';
 import 'package:fundpad/widget/button_circle.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CommissionPage extends StatefulWidget {
   const CommissionPage({Key? key, required this.sum, required this.payouts})
@@ -22,20 +23,19 @@ class _CommissionPageState extends State<CommissionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: COLOR.BLUE_LIGHT,
+      backgroundColor: COLOR.BLUE_PRIMARY,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: COLOR.BLUE_LIGHT,
-        title: const Text(
-          "Commissions",
-          style: TextStyle(color: Colors.white),
+        backgroundColor: COLOR.BLUE_PRIMARY,
+        centerTitle: true,
+        title: Text(
+          "Monthly Commissions",
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 24,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+              color: Colors.white),
         ),
-        actions: [
-          IconButton(
-            onPressed: goDetail,
-            icon: const Icon(Icons.details, color: Colors.white),
-          )
-        ],
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Container(
@@ -47,30 +47,73 @@ class _CommissionPageState extends State<CommissionPage> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              BackWidget(
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: COLOR.BLUE_PRIMARY)),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "Total Commissions",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      "\$" +
-                          Util.formattedCommaString(
-                              widget.sum.toStringAsFixed(2)),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: COLOR.BLUE_DARK,
+                    Image.asset("images/ic_referral.png"),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            "\$" +
+                                Util.formattedCommaString(
+                                    widget.sum.toStringAsFixed(2)),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 30,
+                            ),
+                          ),
+                          const Text(
+                            "Referral Balance",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                        ],
                       ),
                     )
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
-              ListView.builder(
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: const [
+                    Text(
+                      "Month",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      "Amount",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      "%",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      "Commissions",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 primary: false,
                 shrinkWrap: true,
@@ -78,38 +121,49 @@ class _CommissionPageState extends State<CommissionPage> {
                 itemBuilder: (context, index) {
                   Payout payout = widget.payouts[index];
 
-                  return ListTile(
-                    leading: const ButtonCircle(
-                      padding: 8,
-                      child: Icon(
-                        Icons.wallet_giftcard_outlined,
-                        color: Colors.white,
-                        size: 12,
-                      ),
-                    ),
-                    title: Text(
-                      payout.profitName,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    subtitle: Text(
-                      payout.percentage.toString() + "%",
-                      style: const TextStyle(
-                        color: COLOR.TEXT_HINT,
-                      ),
-                    ),
-                    trailing: Text(
-                      "\$" +
-                          Util.formattedCommaString(
-                              payout.amount.toStringAsFixed(2)),
-                      style: const TextStyle(
-                        color: COLOR.BLUE_DARK,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  return BackWidget(
+                    child: Row(
+                      children: [
+                        Text(
+                          payout.profitName,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          "\$" +
+                              Util.formattedCommaString(
+                                  payout.baseAmount.toStringAsFixed(2)),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          payout.percentage.toString() + "%",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          "\$" +
+                              Util.formattedCommaString(
+                                  payout.amount.toStringAsFixed(2)),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },
+                separatorBuilder: (_, __) => const SizedBox(height: 16),
               ),
             ],
           ),

@@ -2,8 +2,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/util.dart';
-import 'package:fundpad/widget/border_round.dart';
-import 'package:fundpad/widget/button_round.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -30,8 +28,8 @@ class ForgotPasswordPage extends StatelessWidget {
                 const Text(
                   'Password reset',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -42,30 +40,41 @@ class ForgotPasswordPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                BorderRound(
-                  horizontal: 16,
-                  vertical: 2,
-                  child: TextFormField(
-                    controller: teEmail,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      hintText: 'Email',
-                      hintStyle: TextStyle(color: COLOR.TEXT_HINT),
-                      border: InputBorder.none,
+                TextFormField(
+                  controller: teEmail,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    hintText: 'Enter Email',
+                    hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
+                    prefixIcon: const Icon(Icons.email),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                      borderSide: const BorderSide(
+                        color: COLOR.BLUE_SECONDARY,
+                        width: 1.5,
+                      ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter email address';
-                      } else if (!EmailValidator.validate(value)) {
-                        return 'Invalid email address';
-                      }
-                      return null;
-                    },
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: COLOR.GRAY_BORDER,
+                        width: 1.5,
+                      ),
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter email address';
+                    } else if (!EmailValidator.validate(value)) {
+                      return 'Invalid email address';
+                    }
+
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
-                ButtonRound(
-                  callback: () {
+                ElevatedButton(
+                  onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       sendPasswordReset(context);
                     }
@@ -73,11 +82,17 @@ class ForgotPasswordPage extends StatelessWidget {
                   child: const Text(
                     "Send Request",
                     style: TextStyle(
-                      letterSpacing: 1.05,
-                      fontSize: 16,
+                      fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    minimumSize: const Size(double.infinity, 64),
+                    primary: COLOR.BLUE_PRIMARY,
                   ),
                 ),
               ],

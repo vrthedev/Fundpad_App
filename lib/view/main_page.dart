@@ -81,15 +81,15 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: false,
           showSelectedLabels: false,
-          selectedItemColor: COLOR.BLUE_DARK,
-          unselectedItemColor: COLOR.TEXT_HINT,
+          selectedItemColor: COLOR.BLUE_PRIMARY,
+          unselectedItemColor: COLOR.GRAY_DEACTIVATE,
           currentIndex: _currentIndex,
           items: [
-            _getItem(Icons.home, "Home"),
-            _getItem(Icons.newspaper, "News"),
+            _getItem("images/ic_home.png", 0),
+            _getItem("images/ic_notification.png", 1),
             BottomNavigationBarItem(icon: Container(), label: ""),
-            _getItem(Icons.email, "Supports"),
-            _getItem(Icons.person, "Profile"),
+            _getItem("images/ic_global.png", 3),
+            _getItem("images/ic_person.png", 4),
           ],
           onTap: (index) {
             setState(() {
@@ -103,8 +103,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
               _currentIndex = 2;
             });
           },
-          child: const Icon(Icons.bar_chart),
-          backgroundColor: COLOR.BLUE_DARK,
+          child: Image.asset("images/ic_chart.png"),
+          backgroundColor: COLOR.BLUE_PRIMARY,
           foregroundColor: Colors.white,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -112,7 +112,25 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     );
   }
 
-  BottomNavigationBarItem _getItem(IconData iconData, String label) {
-    return BottomNavigationBarItem(icon: Icon(iconData), label: "");
+  BottomNavigationBarItem _getItem(String image, int index) {
+    return BottomNavigationBarItem(
+        icon: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              image,
+              color: index == _currentIndex
+                  ? COLOR.BLUE_PRIMARY
+                  : COLOR.GRAY_DEACTIVATE,
+            ),
+            index == _currentIndex
+                ? const SizedBox(height: 2)
+                : const SizedBox.shrink(),
+            index == _currentIndex
+                ? Image.asset("images/ic_active.png")
+                : const SizedBox.shrink()
+          ],
+        ),
+        label: "");
   }
 }

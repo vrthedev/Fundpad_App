@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fundpad/provider/home_provider.dart';
+import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/globals.dart';
 import 'package:fundpad/view/welcome/splash_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,6 +84,9 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               brightness: Brightness.light,
               primaryColor: Colors.white,
+              colorScheme: ThemeData().colorScheme.copyWith(
+                    primary: COLOR.BLUE_SECONDARY,
+                  ),
               appBarTheme: const AppBarTheme(
                 color: Colors.white,
                 titleTextStyle: TextStyle(
