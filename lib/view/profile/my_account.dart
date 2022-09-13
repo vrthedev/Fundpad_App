@@ -48,7 +48,7 @@ class _MyAccountState extends State<MyAccount> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(24),
         child: BackWidget(
           child: Form(
             key: _formKey,

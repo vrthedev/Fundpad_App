@@ -45,6 +45,16 @@ class ReferralInfo extends StatelessWidget {
               data: code,
               version: QrVersions.auto,
               size: 80,
+              eyeStyle: QrEyeStyle(
+                  eyeShape: QrEyeShape.square,
+                  color: provider.getThemeMode() == ThemeMode.dark
+                      ? Colors.white
+                      : Colors.black),
+              dataModuleStyle: QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                  color: provider.getThemeMode() == ThemeMode.dark
+                      ? Colors.white
+                      : Colors.black),
             ),
           ),
           const SizedBox(height: 4),

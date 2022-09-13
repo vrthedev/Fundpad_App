@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fundpad/model/account_info.dart';
 import 'package:fundpad/model/app_user.dart';
 import 'package:fundpad/model/faq.dart';
+import 'package:fundpad/model/pledge.dart';
 import 'package:fundpad/model/project.dart';
 import 'package:fundpad/model/referee.dart';
 import 'package:fundpad/utils/const.dart';
@@ -215,33 +216,51 @@ class Util {
     }
   }
 
-  static Future<String> createPledge(
-      String transaction, String amount, String wallet) async {
+  static Future<Pledge> getMyLastPledge() async {
     try {
       final http.Response response = await http.post(
-        Uri.parse(BASE_URL + API.UPSERT_PLEDGE),
+        Uri.parse(BASE_URL + API.GET_PLEDGE),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
           <String, dynamic>{
             'investor_id': Globals.currentUser!.id,
-            'transaction': transaction,
-            'amount': amount,
-            'wallet': wallet,
           },
         ),
       );
-
+      print(response.body);
       Map<String, dynamic> result = json.decode(response.body);
 
       if (result[API.RESULT] == true) {
-        return "Success";
+        return Pledge.fromJson(result[API.DATA]);
       } else {
-        return result[API.DATA] ?? "";
+        throw result[API.DATA];
       }
     } catch (e) {
-      return e.toString();
+      throw 'Connection Error';
+    }
+  }
+
+  static Future<String> upsertPledge(Map<String, dynamic> data) async {
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(BASE_URL + API.UPSERT_PLEDGE),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(data),
+      );
+      print(response.body);
+      Map<String, dynamic> result = json.decode(response.body);
+
+      if (result[API.RESULT] == true) {
+        return result[API.DATA];
+      } else {
+        throw result[API.DATA] ?? "";
+      }
+    } catch (e) {
+      throw e.toString();
     }
   }
 

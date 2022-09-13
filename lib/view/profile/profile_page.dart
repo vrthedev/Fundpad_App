@@ -20,7 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
           const Text(
             "Profile",
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 28),
@@ -118,6 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
               size: 14,
             ),
           ),
+          const SizedBox(height: 16),
           ReferralInfo(code: Globals.currentUser!.referralCode),
         ],
       ),

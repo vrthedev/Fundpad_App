@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fundpad/provider/home_provider.dart';
 import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/view/account/account_page.dart';
 import 'package:fundpad/view/home/home_page.dart';
@@ -6,6 +7,7 @@ import 'package:fundpad/view/news/news_page.dart';
 import 'package:fundpad/view/profile/profile_page.dart';
 import 'package:fundpad/view/support/support_page.dart';
 import 'package:fundpad/view/welcome/login_page.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -74,10 +76,29 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<HomeProvider>(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: provider.getThemeMode() == ThemeMode.dark
+            ? COLOR.SCAFFOLD_DARK
+            : COLOR.SCAFFOLD_LIGHT,
         body: tabs[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
+        bottomNavigationBar:
+            // Container(
+            //   decoration: BoxDecoration(
+            //       borderRadius:
+            //           const BorderRadius.vertical(top: Radius.circular(30)),
+            //       boxShadow: [
+            //         BoxShadow(
+            //             offset: const Offset(0, -8),
+            //             blurRadius: 60,
+            //             spreadRadius: 0,
+            //             color: const Color(0xff312D57).withOpacity(0.04))
+            //       ]),
+            //   child: ClipRRect(
+            //     borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+            //     child:
+            BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: false,
           showSelectedLabels: false,
@@ -87,7 +108,16 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           items: [
             _getItem("images/ic_home.png", 0),
             _getItem("images/ic_notification.png", 1),
-            BottomNavigationBarItem(icon: Container(), label: ""),
+            BottomNavigationBarItem(
+                icon: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
+                    color: COLOR.BLUE_PRIMARY,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset("images/ic_chart.png"),
+                ),
+                label: ""),
             _getItem("images/ic_global.png", 3),
             _getItem("images/ic_person.png", 4),
           ],
@@ -97,17 +127,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             });
           },
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              _currentIndex = 2;
-            });
-          },
-          child: Image.asset("images/ic_chart.png"),
-          backgroundColor: COLOR.BLUE_PRIMARY,
-          foregroundColor: Colors.white,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        //   ),
+        // ),
       ),
     );
   }

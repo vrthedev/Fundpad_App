@@ -6,17 +6,13 @@ import 'package:fundpad/utils/globals.dart';
 import 'package:fundpad/utils/util.dart';
 import 'package:fundpad/view/account/commission_page.dart';
 import 'package:fundpad/view/account/profits_page.dart';
-import 'package:fundpad/view/account/referral_detail.dart';
+import 'package:fundpad/view/account/referral_commissions.dart';
+import 'package:fundpad/widget/image_header.dart';
 import 'package:fundpad/widget/referral_info.dart';
 
-class AccountPage extends StatefulWidget {
+class AccountPage extends StatelessWidget {
   const AccountPage({Key? key}) : super(key: key);
 
-  @override
-  State<AccountPage> createState() => _AccountPageState();
-}
-
-class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<AccountInfo>(
@@ -25,14 +21,11 @@ class _AccountPageState extends State<AccountPage> {
           if (snapshot.hasData) {
             AccountInfo account = snapshot.data!;
 
-            // int pledgesCount =
-            //     account.pledges.where((element) => element.status == 1).length;
-
             return SingleChildScrollView(
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(24.0),
                     child: Column(
                       children: [
                         Row(
@@ -118,10 +111,14 @@ class _AccountPageState extends State<AccountPage> {
                           onPressed: () {
                             Navigator.of(context).push(
                               CupertinoPageRoute(
-                                builder: (context) => ProfitsPage(
-                                  sum: account.investorSum,
-                                  payouts: account.investorPayouts,
-                                ),
+                                builder: (context) => ImageHeader(
+                                    light: "images/orange_light.png",
+                                    dark: "images/orange_dark.png",
+                                    title: "Profits",
+                                    child: ProfitsPage(
+                                      sum: account.investorSum,
+                                      payouts: account.investorPayouts,
+                                    )),
                               ),
                             );
                           },
@@ -146,10 +143,14 @@ class _AccountPageState extends State<AccountPage> {
                           onPressed: () {
                             Navigator.of(context).push(
                               CupertinoPageRoute(
-                                builder: (context) => CommissionPage(
-                                  sum: account.referralSum,
-                                  payouts: account.referralPayouts,
-                                ),
+                                builder: (context) => ImageHeader(
+                                    light: "images/purple_light.png",
+                                    dark: "images/purple_dark.png",
+                                    title: "Monthly Commissions",
+                                    child: CommissionPage(
+                                      sum: account.referralSum,
+                                      payouts: account.referralPayouts,
+                                    )),
                               ),
                             );
                           },
@@ -174,7 +175,11 @@ class _AccountPageState extends State<AccountPage> {
                           onPressed: () {
                             Navigator.of(context).push(
                               CupertinoPageRoute(
-                                builder: (context) => const ReferralDetail(),
+                                builder: (context) => const ImageHeader(
+                                    light: "images/purple_light.png",
+                                    dark: "images/purple_dark.png",
+                                    title: "Referral Commissions",
+                                    child: ReferralCommissions()),
                               ),
                             );
                           },

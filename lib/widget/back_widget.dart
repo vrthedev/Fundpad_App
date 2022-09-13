@@ -28,15 +28,13 @@ class BackWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius ?? 16),
             color: provider.getThemeMode() == ThemeMode.dark
                 ? COLOR.BACK_DARK
-                : COLOR.BACK_LIGHT,
+                : Colors.white,
             boxShadow: [
               BoxShadow(
-                offset: const Offset(0, 34),
-                blurRadius: 54,
+                offset: const Offset(0, 8),
+                blurRadius: 30,
                 spreadRadius: 0,
-                color: provider.getThemeMode() == ThemeMode.dark
-                    ? const Color(0xff141414)
-                    : const Color(0xffEDEEF3),
+                color: Colors.white.withOpacity(0.06),
               )
             ],
           ),

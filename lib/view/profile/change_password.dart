@@ -1,20 +1,14 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fundpad/provider/home_provider.dart';
 import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/globals.dart';
 import 'package:fundpad/utils/util.dart';
 import 'package:fundpad/view/welcome/login_page.dart';
 import 'package:fundpad/widget/back_widget.dart';
-import 'package:fundpad/widget/button_round.dart';
 import 'package:fundpad/widget/password_field.dart';
-import 'package:fundpad/widget/referral_info.dart';
-import 'package:fundpad/widget/switch_row.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({Key? key}) : super(key: key);
@@ -32,8 +26,6 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<HomeProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -48,7 +40,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(24),
         child: BackWidget(
           child: Form(
             key: _formKey,

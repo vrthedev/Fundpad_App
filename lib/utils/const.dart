@@ -11,15 +11,16 @@ class COLOR {
   static const Color BLUE_PRIMARY = Color(0xff6D43FD);
   static const Color BLUE_SECONDARY = Color(0xFF4162FF);
   static const Color TEXT_HINT = Color(0xff848AA4);
+  static const Color TEXT_RED = Color(0xffFC2222);
   static const Color GRAY_BORDER = Color(0xffE0E0E0);
   static const Color ORANGE_PRIMARY = Color(0xffFC8440);
   static const Color GRAY_DEACTIVATE = Color(0xffDADFE7);
   static const Color PURPLE = Color(0xff9896FF);
   static const Color BLACK_BACK = Color(0xFF0D0D0D);
   static const Color BACK_DARK = Color(0xff1A1919);
+  static const Color SCAFFOLD_LIGHT = Color(0xffEBF0FF);
+  static const Color SCAFFOLD_DARK = Color(0xff171717);
 
-  static const Color BORDER_LIGHT = Color(0xffe8e8e8);
-  static const Color BACK_LIGHT = Color(0xfff7f7f7);
   static const Color BLUE_LIGHT = Color(0xff41b7fd);
   static const Color BLUE_DARK = Color(0xff1e7bfd);
   static const Color ORANGE_LIGHT = Color(0xffffce52);
@@ -38,6 +39,7 @@ class API {
   static const String GET_PROJECT = "/project/get";
   static const String ACCOUNT_INFO = "/account/info";
   static const String ACCOUNT_REFEREES = "/account/referees";
+  static const String GET_PLEDGE = "/pledge/get";
   static const String UPSERT_PLEDGE = "/pledge/upsert";
   static const String GET_FAQ = "/faq/get";
   static const String GET_NEWS = "/news/get";

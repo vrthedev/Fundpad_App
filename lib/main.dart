@@ -84,6 +84,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               brightness: Brightness.light,
               primaryColor: Colors.white,
+              scaffoldBackgroundColor: const Color(0xffEBF0FF),
               colorScheme: ThemeData().colorScheme.copyWith(
                     primary: COLOR.BLUE_SECONDARY,
                   ),
@@ -106,6 +107,7 @@ class MyApp extends StatelessWidget {
             darkTheme: ThemeData(
               brightness: Brightness.dark,
               fontFamily: GoogleFonts.poppins().fontFamily,
+              scaffoldBackgroundColor: const Color(0xff0f0f0f),
             ),
             themeMode: provider.getThemeMode(),
             home: const SplashPage(),
