@@ -36,10 +36,7 @@ class Util {
 
   static Future<String> signup(
       String fullname, String email, String password, String referralCode,
-      {String? dialCode,
-      String? phone,
-      String? wallet,
-      String? address}) async {
+      {String? phone}) async {
     try {
       final http.Response response = await http.post(
         Uri.parse(BASE_URL + API.REGISTER),
@@ -53,10 +50,7 @@ class Util {
             'password': password,
             'register_referral_code': referralCode,
             'device_token': Globals.deviceToken,
-            'dialcode': dialCode,
             'phone': phone,
-            'wallet': wallet,
-            'address': address,
           },
         ),
       );
@@ -64,6 +58,7 @@ class Util {
       Map<String, dynamic> result = json.decode(response.body);
 
       if (result[API.RESULT] == true) {
+        Globals.currentUser = AppUser.fromJson(result[API.DATA]);
         return "Success";
       } else {
         return result[API.DATA] ?? "";
@@ -172,6 +167,29 @@ class Util {
     }
   }
 
+  static Future<String> deleteAccount() async {
+    try {
+      final http.Response response =
+          await http.post(Uri.parse(BASE_URL + API.DELETE_ACCOUNT),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(
+                <String, dynamic>{'_id': Globals.currentUser!.id},
+              ));
+
+      Map<String, dynamic> result = json.decode(response.body);
+
+      if (result[API.RESULT] == true) {
+        return "Success";
+      } else {
+        return result[API.DATA] ?? "";
+      }
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
   static Future<Project> getProject() async {
     try {
       final http.Response response =
@@ -233,7 +251,7 @@ class Util {
       Map<String, dynamic> result = json.decode(response.body);
 
       if (result[API.RESULT] == true) {
-        return Pledge.fromJson(result[API.DATA]);
+        return Pledge.fromJson(result[API.DATA] ?? {});
       } else {
         throw result[API.DATA];
       }

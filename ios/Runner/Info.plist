@@ -50,5 +50,7 @@
 	<string>Legacy will use camera to get profile image and face ID</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Legacy will use photo library to get profile image</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Legacy will use face id to authenticate</string>
 </dict>
 </plist>

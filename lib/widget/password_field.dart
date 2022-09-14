@@ -43,12 +43,9 @@ class _PasswordFieldState extends State<PasswordField> {
               isShow = !isShow;
             });
           },
-          icon: Icon(
-            isShow ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-            color: COLOR.BLUE_SECONDARY,
-          ),
+          icon: Image.asset("images/ic_eye.png"),
         ),
-        prefixIcon: const Icon(Icons.lock),
+        prefixIcon: Image.asset("images/ic_lock.png"),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
           borderSide: const BorderSide(

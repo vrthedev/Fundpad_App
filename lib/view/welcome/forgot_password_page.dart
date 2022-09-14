@@ -46,7 +46,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: 'Enter Email',
                     hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
-                    prefixIcon: const Icon(Icons.email),
+                    prefixIcon: Image.asset("images/ic_email.png"),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
                       borderSide: const BorderSide(

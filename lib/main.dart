@@ -89,11 +89,11 @@ class MyApp extends StatelessWidget {
                     primary: COLOR.BLUE_SECONDARY,
                   ),
               appBarTheme: const AppBarTheme(
-                color: Colors.white,
+                color: Color(0xffEBF0FF),
                 titleTextStyle: TextStyle(
-                  color: Colors.black,
+                  color: Color(0xff0E1446),
                   fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
                 iconTheme: IconThemeData(color: Colors.black),
                 actionsIconTheme: IconThemeData(color: Colors.black),
@@ -103,6 +103,13 @@ class MyApp extends StatelessWidget {
               // textTheme: GoogleFonts.nunitoTextTheme(
               //   Theme.of(context).textTheme,
               // ),
+              textTheme: const TextTheme(
+                bodyText1: TextStyle(),
+                bodyText2: TextStyle(),
+              ).apply(
+                bodyColor: const Color(0xff0E1446),
+                displayColor: const Color(0xff0E1446),
+              ),
             ),
             darkTheme: ThemeData(
               brightness: Brightness.dark,

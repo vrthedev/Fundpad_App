@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 12),
                           TextFormField(
                             controller: teEmail,
                             keyboardType: TextInputType.emailAddress,
@@ -72,12 +72,9 @@ class _LoginPageState extends State<LoginPage> {
                               hintText: 'Enter Email',
                               hintStyle:
                                   const TextStyle(color: COLOR.TEXT_HINT),
-                              prefixIcon: const Icon(Icons.email),
+                              prefixIcon: Image.asset("images/ic_email.png"),
                               suffixIcon: isValidEmail
-                                  ? const Icon(
-                                      Icons.check,
-                                      color: Colors.green,
-                                    )
+                                  ? Image.asset("images/ic_check.png")
                                   : null,
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16.0),
@@ -113,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 20),
                           const Text(
                             "Password",
                             style: TextStyle(
@@ -121,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 12),
                           PasswordField(
                             controller: tePassword,
                             hint: "Enter Password",

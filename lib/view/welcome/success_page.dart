@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fundpad/utils/const.dart';
-import 'package:fundpad/view/welcome/login_page.dart';
+import 'package:fundpad/view/home/home_page.dart';
 import 'package:fundpad/widget/button_round.dart';
 
 class SuccessPage extends StatelessWidget {
@@ -50,7 +50,7 @@ class SuccessPage extends StatelessWidget {
                   callback: () {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
+                        builder: (context) => const HomePage(),
                       ),
                     );
                   },

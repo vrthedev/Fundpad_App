@@ -1,6 +1,6 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/util.dart';
@@ -9,6 +9,7 @@ import 'package:fundpad/view/welcome/scan_code.dart';
 import 'package:fundpad/view/welcome/success_page.dart';
 import 'package:fundpad/widget/password_field.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -25,11 +26,9 @@ class _SignupPageState extends State<SignupPage> {
   final teReferralCode = TextEditingController();
   final teUsername = TextEditingController();
   final tePhone = TextEditingController();
-  final teWallet = TextEditingController();
-  final teHomeAddress = TextEditingController();
-  CountryCode code = CountryCode.fromCountryCode("US");
 
   bool isValidEmail = false;
+  bool isAccepted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +63,14 @@ class _SignupPageState extends State<SignupPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 12),
                           TextFormField(
                             controller: teUsername,
                             decoration: InputDecoration(
                               hintText: 'Enter User Name',
                               hintStyle:
                                   const TextStyle(color: COLOR.TEXT_HINT),
-                              prefixIcon: const Icon(Icons.person),
+                              prefixIcon: Image.asset("images/ic_username.png"),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16.0),
                                 borderSide: const BorderSide(
@@ -94,7 +93,7 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 20),
                           const Text(
                             "Email",
                             style: TextStyle(
@@ -102,7 +101,7 @@ class _SignupPageState extends State<SignupPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 12),
                           TextFormField(
                             controller: teEmail,
                             keyboardType: TextInputType.emailAddress,
@@ -110,12 +109,9 @@ class _SignupPageState extends State<SignupPage> {
                               hintText: 'Enter Email',
                               hintStyle:
                                   const TextStyle(color: COLOR.TEXT_HINT),
-                              prefixIcon: const Icon(Icons.email),
+                              prefixIcon: Image.asset("images/ic_email.png"),
                               suffixIcon: isValidEmail
-                                  ? const Icon(
-                                      Icons.check,
-                                      color: Colors.green,
-                                    )
+                                  ? Image.asset("images/ic_check_green.png")
                                   : null,
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16.0),
@@ -151,7 +147,7 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 20),
                           const Text(
                             "Password",
                             style: TextStyle(
@@ -159,7 +155,7 @@ class _SignupPageState extends State<SignupPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 12),
                           PasswordField(
                             controller: tePassword,
                             hint: "Enter Password",
@@ -172,7 +168,7 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 20),
                           const Text(
                             "Confirm Password",
                             style: TextStyle(
@@ -180,10 +176,10 @@ class _SignupPageState extends State<SignupPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 12),
                           PasswordField(
                             controller: teCPassword,
-                            hint: "Enter Confirm Password",
+                            hint: "Enter Password",
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter confirm password';
@@ -193,7 +189,7 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 20),
                           const Text(
                             "Referral code",
                             style: TextStyle(
@@ -201,14 +197,14 @@ class _SignupPageState extends State<SignupPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 12),
                           TextFormField(
                             controller: teReferralCode,
                             decoration: InputDecoration(
                               hintText: 'Enter or Scan Referral code',
                               hintStyle:
                                   const TextStyle(color: COLOR.TEXT_HINT),
-                              prefixIcon: const Icon(Icons.group),
+                              prefixIcon: Image.asset("images/ic_refer.png"),
                               suffixIcon: IconButton(
                                 padding: EdgeInsets.zero,
                                 onPressed: () {
@@ -249,7 +245,7 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 20),
                           const Text(
                             "Phone Number",
                             style: TextStyle(
@@ -257,64 +253,15 @@ class _SignupPageState extends State<SignupPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          const SizedBox(height: 4),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: COLOR.GRAY_BORDER,
-                              ),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 2,
-                              horizontal: 15,
-                            ),
-                            child: Row(
-                              children: [
-                                CountryCodePicker(
-                                  onChanged: (code) {
-                                    this.code = code;
-                                  },
-                                  initialSelection: "US",
-                                  favorite: const ["US", "ES"],
-                                  showCountryOnly: true,
-                                  showOnlyCountryWhenClosed: false,
-                                ),
-                                Container(
-                                  height: 30.0,
-                                  width: 1.0,
-                                  color: COLOR.TEXT_HINT,
-                                  margin: const EdgeInsets.only(
-                                      left: 10.0, right: 10.0),
-                                ),
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: tePhone,
-                                    keyboardType: TextInputType.phone,
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: "Enter Phone number"),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          const Text(
-                            "Wallet Address",
-                            style: TextStyle(
-                                color: COLOR.TEXT_HINT,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 12),
                           TextFormField(
-                            controller: teWallet,
+                            controller: tePhone,
+                            keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
-                              hintText: 'Enter Wallet address',
+                              hintText: "Enter Phone number",
                               hintStyle:
                                   const TextStyle(color: COLOR.TEXT_HINT),
-                              prefixIcon: const Icon(Icons.wallet_giftcard),
+                              prefixIcon: Image.asset("images/ic_phone.png"),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16.0),
                                 borderSide: const BorderSide(
@@ -331,37 +278,40 @@ class _SignupPageState extends State<SignupPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
-                          const Text(
-                            "Home Address",
-                            style: TextStyle(
-                                color: COLOR.TEXT_HINT,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          const SizedBox(height: 4),
-                          TextFormField(
-                            controller: teHomeAddress,
-                            decoration: InputDecoration(
-                              hintText: 'Enter Home Address',
-                              hintStyle:
-                                  const TextStyle(color: COLOR.TEXT_HINT),
-                              prefixIcon: const Icon(Icons.home),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                                borderSide: const BorderSide(
-                                  color: COLOR.BLUE_SECONDARY,
-                                  width: 1.5,
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Checkbox(
+                                  value: isAccepted,
+                                  onChanged: (v) {
+                                    setState(() {
+                                      isAccepted = v ?? false;
+                                    });
+                                  }),
+                              Expanded(
+                                child: RichText(
+                                  text: TextSpan(
+                                      style: const TextStyle(
+                                          color: COLOR.TEXT_HINT),
+                                      children: [
+                                        const TextSpan(text: "I agree to "),
+                                        TextSpan(
+                                          text:
+                                              'Privacy Policy and Terms & Conditions',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: COLOR.BLUE_SECONDARY),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              Uri uri = Uri.parse(
+                                                  "http://www.legacy1.co.uk/privacy-policy/");
+                                              launchUrl(uri);
+                                            },
+                                        ),
+                                      ]),
                                 ),
                               ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16),
-                                borderSide: const BorderSide(
-                                  color: COLOR.GRAY_BORDER,
-                                  width: 1.5,
-                                ),
-                              ),
-                            ),
+                            ],
                           ),
                           const SizedBox(height: 16),
                           ElevatedButton(
@@ -424,8 +374,9 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   void signup() async {
-    FocusScope.of(context).unfocus();
+    if (!isAccepted) return;
 
+    FocusScope.of(context).unfocus();
     String phone = tePhone.text.trim();
 
     String result = await showDialog(
@@ -436,16 +387,12 @@ class _SignupPageState extends State<SignupPage> {
           teEmail.text,
           tePassword.text,
           teReferralCode.text,
-          dialCode: phone.isEmpty ? null : code.dialCode,
           phone: phone.isEmpty ? null : phone,
-          wallet: teWallet.text,
-          address: teHomeAddress.text,
         ),
       ),
     );
 
     if (result == "Success") {
-      showToast("Your account is created. Please login");
       Navigator.of(context).pushReplacement(
         CupertinoPageRoute(
           builder: (context) => const SuccessPage(),

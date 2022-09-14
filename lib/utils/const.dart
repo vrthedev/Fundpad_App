@@ -36,6 +36,7 @@ class API {
   static const String RESET_PASSWORD = "/appuser/sendResetpasswordEmail";
   static const String UPDATE_PROFILE = "/appuser/upsert";
   static const String CHANGE_PASSWORD = "/appuser/changePassword";
+  static const String DELETE_ACCOUNT = "/appuser/delete";
   static const String GET_PROJECT = "/project/get";
   static const String ACCOUNT_INFO = "/account/info";
   static const String ACCOUNT_REFEREES = "/account/referees";

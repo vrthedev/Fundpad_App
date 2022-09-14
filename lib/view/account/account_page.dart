@@ -32,9 +32,9 @@ class AccountPage extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Container(
-                                constraints:
-                                    const BoxConstraints(minHeight: 140),
-                                padding: const EdgeInsets.all(16),
+                                height: 170,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
                                   border: Border.all(color: COLOR.BLUE_PRIMARY),
@@ -50,6 +50,7 @@ class AccountPage extends StatelessWidget {
                                           Util.formattedCommaString(account
                                               .pledgesSum
                                               .toStringAsFixed(2)),
+                                      textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         fontSize: 26,
                                         fontWeight: FontWeight.w600,
@@ -69,9 +70,9 @@ class AccountPage extends StatelessWidget {
                             const SizedBox(width: 16),
                             Expanded(
                               child: Container(
-                                constraints:
-                                    const BoxConstraints(minHeight: 140),
-                                padding: const EdgeInsets.all(16),
+                                height: 170,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
                                   border:
@@ -88,6 +89,7 @@ class AccountPage extends StatelessWidget {
                                           Util.formattedCommaString(account
                                               .referralSum
                                               .toStringAsFixed(2)),
+                                      textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         fontSize: 26,
                                         fontWeight: FontWeight.w600,

@@ -1,4 +1,3 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fundpad/utils/const.dart';
@@ -29,8 +28,6 @@ class _MyAccountState extends State<MyAccount> {
       editWallet = false,
       editAddress = false;
   bool isValidEmail = false;
-
-  CountryCode code = CountryCode.fromDialCode(Globals.currentUser!.dialcode);
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +81,7 @@ class _MyAccountState extends State<MyAccount> {
                   decoration: InputDecoration(
                     hintText: 'Enter User Name',
                     hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
-                    prefixIcon: const Icon(Icons.person),
+                    prefixIcon: Image.asset("images/ic_username.png"),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
                       borderSide: const BorderSide(
@@ -107,7 +104,7 @@ class _MyAccountState extends State<MyAccount> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -138,12 +135,9 @@ class _MyAccountState extends State<MyAccount> {
                   decoration: InputDecoration(
                     hintText: 'Enter Email',
                     hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
-                    prefixIcon: const Icon(Icons.email),
+                    prefixIcon: Image.asset("images/ic_email.png"),
                     suffixIcon: isValidEmail
-                        ? const Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          )
+                        ? Image.asset("images/ic_check_green.png")
                         : null,
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
@@ -169,7 +163,7 @@ class _MyAccountState extends State<MyAccount> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -193,52 +187,28 @@ class _MyAccountState extends State<MyAccount> {
                         ))
                   ],
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: COLOR.GRAY_BORDER,
+                TextFormField(
+                  controller: tePhone,
+                  readOnly: !editPhone,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    hintText: "Enter Phone number",
+                    hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
+                    prefixIcon: Image.asset("images/ic_phone.png"),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                      borderSide: const BorderSide(
+                        color: COLOR.BLUE_SECONDARY,
+                        width: 1.5,
+                      ),
                     ),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 2,
-                    horizontal: 15,
-                  ),
-                  child: Row(
-                    children: [
-                      CountryCodePicker(
-                        onChanged: (code) {
-                          this.code = code;
-                        },
-                        initialSelection: "US",
-                        favorite: const ["US", "ES"],
-                        showCountryOnly: true,
-                        showOnlyCountryWhenClosed: false,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: COLOR.GRAY_BORDER,
+                        width: 1.5,
                       ),
-                      Container(
-                        height: 30.0,
-                        width: 1.0,
-                        color: COLOR.TEXT_HINT,
-                        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-                      ),
-                      Expanded(
-                        child: TextFormField(
-                          controller: tePhone,
-                          readOnly: !editPhone,
-                          keyboardType: TextInputType.phone,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter Phone number',
-                            border: InputBorder.none,
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter phone number';
-                            }
-                            return null;
-                          },
-                        ),
-                      )
-                    ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -270,7 +240,7 @@ class _MyAccountState extends State<MyAccount> {
                   decoration: InputDecoration(
                     hintText: 'Enter Wallet address',
                     hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
-                    prefixIcon: const Icon(Icons.wallet_giftcard),
+                    prefixIcon: Image.asset("images/ic_wallet.png"),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
                       borderSide: const BorderSide(
@@ -293,60 +263,7 @@ class _MyAccountState extends State<MyAccount> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Home Address",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          setState(() {
-                            editAddress = !editAddress;
-                          });
-                        },
-                        child: const Text(
-                          "Edit",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: COLOR.TEXT_HINT),
-                        ))
-                  ],
-                ),
-                TextFormField(
-                  controller: teAddress,
-                  readOnly: editAddress,
-                  decoration: InputDecoration(
-                    hintText: 'Enter Home Address',
-                    hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
-                    prefixIcon: const Icon(Icons.home),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                      borderSide: const BorderSide(
-                        color: COLOR.BLUE_SECONDARY,
-                        width: 1.5,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(
-                        color: COLOR.GRAY_BORDER,
-                        width: 1.5,
-                      ),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter home address';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -390,10 +307,6 @@ class _MyAccountState extends State<MyAccount> {
       data["email"] = teEmail.text;
     }
 
-    if (Globals.currentUser!.dialcode != code.dialCode) {
-      data["dialcode"] = code.dialCode;
-    }
-
     if (Globals.currentUser!.phone != tePhone.text) {
       data["phone"] = tePhone.text;
     }
@@ -422,10 +335,6 @@ class _MyAccountState extends State<MyAccount> {
 
       if (Globals.currentUser!.email != teEmail.text) {
         Globals.currentUser!.email = teEmail.text;
-      }
-
-      if (Globals.currentUser!.dialcode != code.dialCode) {
-        Globals.currentUser!.dialcode = code.dialCode!;
       }
 
       if (Globals.currentUser!.phone != tePhone.text) {
