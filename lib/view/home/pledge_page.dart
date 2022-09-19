@@ -37,6 +37,9 @@ class _PledgePageState extends State<PledgePage> {
     super.initState();
 
     pledge = widget.pledge;
+    if (pledge.amount > 0) {
+      teAmount.text = pledge.amount.toStringAsFixed(2);
+    }
   }
 
   @override
@@ -45,7 +48,7 @@ class _PledgePageState extends State<PledgePage> {
 
     return Container(
       width: double.infinity,
-      height: double.infinity,
+      // height: double.infinity,
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
           color: provider.getThemeMode() == ThemeMode.dark
@@ -54,6 +57,7 @@ class _PledgePageState extends State<PledgePage> {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
@@ -61,7 +65,10 @@ class _PledgePageState extends State<PledgePage> {
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
             ),
             const SizedBox(height: 8),
-            pledge.id.isEmpty ? _amountColumn() : _transactionColumn(provider),
+            // pledge.id.isEmpty ? _amountColumn() : _transactionColumn(provider),
+            _amountColumn(),
+            const SizedBox(height: 24),
+            _transactionColumn(provider),
           ],
         ),
       ),
@@ -118,30 +125,33 @@ class _PledgePageState extends State<PledgePage> {
           ),
         ),
         const SizedBox(height: 8),
-        Center(
-          child: Text(
-            "All Payments in USDT  TRC20 Only".toUpperCase(),
-            style: const TextStyle(
-              color: COLOR.TEXT_RED,
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
-            ),
-          ),
-        ),
+        // Center(
+        //   child: Text(
+        //     "All Payments in USDT  TRC20 Only".toUpperCase(),
+        //     style: const TextStyle(
+        //       color: COLOR.TEXT_RED,
+        //       fontWeight: FontWeight.w500,
+        //       fontSize: 15,
+        //     ),
+        //   ),
+        // ),
         const SizedBox(height: 8),
         Align(
           alignment: Alignment.centerRight,
           child: ElevatedButton(
-            onPressed: () {
-              if (_amountFormKey.currentState!.validate()) {
-                Map<String, dynamic> data = {
-                  'investor_id': Globals.currentUser!.id,
-                  'amount': teAmount.text,
-                };
+            onPressed: pledge.id.isEmpty
+                ? () {
+                    if (_amountFormKey.currentState!.validate()) {
+                      Map<String, dynamic> data = {
+                        'investor_id': Globals.currentUser!.id,
+                        'amount': teAmount.text,
+                      };
 
-                upsertPledge(data);
-              }
-            },
+                      upsertPledge(data);
+                      Util.mailDeposit();
+                    }
+                  }
+                : null,
             child: const Text(
               "Submit",
               style: TextStyle(
@@ -168,51 +178,51 @@ class _PledgePageState extends State<PledgePage> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Please deposit it to the following Wallet Address only.",
-          style: TextStyle(color: COLOR.TEXT_HINT, fontSize: 15),
-        ),
-        const SizedBox(height: 16),
-        Align(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              QrImage(
-                data: widget.project.depositAddress,
-                version: QrVersions.auto,
-                size: 80,
-                eyeStyle: QrEyeStyle(
-                    eyeShape: QrEyeShape.square,
-                    color: provider.getThemeMode() == ThemeMode.dark
-                        ? Colors.white
-                        : Colors.black),
-                dataModuleStyle: QrDataModuleStyle(
-                    dataModuleShape: QrDataModuleShape.square,
-                    color: provider.getThemeMode() == ThemeMode.dark
-                        ? Colors.white
-                        : Colors.black),
-              ),
-              Row(mainAxisSize: MainAxisSize.min, children: [
-                Text(
-                  widget.project.depositAddress,
-                  style: const TextStyle(
-                      letterSpacing: 1.05,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Clipboard.setData(
-                        ClipboardData(text: widget.project.depositAddress));
-                  },
-                  icon: const Icon(Icons.copy),
-                ),
-              ])
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
+        // const Text(
+        //   "Please deposit it to the following Wallet Address only.",
+        //   style: TextStyle(color: COLOR.TEXT_HINT, fontSize: 15),
+        // ),
+        // const SizedBox(height: 16),
+        // Align(
+        //   alignment: Alignment.center,
+        //   child: Column(
+        //     mainAxisSize: MainAxisSize.min,
+        //     children: [
+        //       QrImage(
+        //         data: widget.project.depositAddress,
+        //         version: QrVersions.auto,
+        //         size: 80,
+        //         eyeStyle: QrEyeStyle(
+        //             eyeShape: QrEyeShape.square,
+        //             color: provider.getThemeMode() == ThemeMode.dark
+        //                 ? Colors.white
+        //                 : Colors.black),
+        //         dataModuleStyle: QrDataModuleStyle(
+        //             dataModuleShape: QrDataModuleShape.square,
+        //             color: provider.getThemeMode() == ThemeMode.dark
+        //                 ? Colors.white
+        //                 : Colors.black),
+        //       ),
+        //       Row(mainAxisSize: MainAxisSize.min, children: [
+        //         Text(
+        //           widget.project.depositAddress,
+        //           style: const TextStyle(
+        //               letterSpacing: 1.05,
+        //               fontSize: 16,
+        //               fontWeight: FontWeight.w500),
+        //         ),
+        //         IconButton(
+        //           onPressed: () {
+        //             Clipboard.setData(
+        //                 ClipboardData(text: widget.project.depositAddress));
+        //           },
+        //           icon: const Icon(Icons.copy),
+        //         ),
+        //       ])
+        //     ],
+        //   ),
+        // ),
+        // const SizedBox(height: 16),
         Center(
           child: Text(
             "Once you submit your pledge you will \nreceive an email on where to send \nyour payment"
@@ -227,7 +237,7 @@ class _PledgePageState extends State<PledgePage> {
         ),
         const SizedBox(height: 8),
         const Text(
-          "Once payment is sent pledge submit your TX ID and amout below",
+          "Once payment is sent pledge submit your TX ID below",
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
@@ -277,16 +287,18 @@ class _PledgePageState extends State<PledgePage> {
         Align(
           alignment: Alignment.centerRight,
           child: ElevatedButton(
-            onPressed: () {
-              if (_txFormKey.currentState!.validate()) {
-                Map<String, dynamic> data = {
-                  '_id': pledge.id,
-                  'transaction': teTransaction.text,
-                };
+            onPressed: pledge.id.isEmpty
+                ? null
+                : () {
+                    if (_txFormKey.currentState!.validate()) {
+                      Map<String, dynamic> data = {
+                        '_id': pledge.id,
+                        'transaction': teTransaction.text,
+                      };
 
-                upsertPledge(data);
-              }
-            },
+                      upsertPledge(data);
+                    }
+                  },
             child: const Text(
               "Submit",
               style: TextStyle(
@@ -304,68 +316,68 @@ class _PledgePageState extends State<PledgePage> {
             ),
           ),
         ),
-        const SizedBox(height: 24),
-        const Text(
-          "Please supply a USDT TRC20 Receipient Wallet Address",
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 8),
-        Form(
-          key: _walletFormKey,
-          child: TextFormField(
-            controller: teWallet,
-            decoration: InputDecoration(
-              hintText: 'Wallet address',
-              hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                borderSide: const BorderSide(
-                  color: COLOR.BLUE_SECONDARY,
-                  width: 1.5,
-                ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                  color: COLOR.GRAY_BORDER,
-                  width: 1.5,
-                ),
-              ),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter Wallet address';
-              }
-              return null;
-            },
-          ),
-        ),
-        const SizedBox(height: 16),
-        Align(
-          alignment: Alignment.centerRight,
-          child: ElevatedButton(
-            onPressed: () {
-              if (_walletFormKey.currentState!.validate()) {
-                updateWallet();
-              }
-            },
-            child: const Text(
-              "Submit",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              minimumSize: const Size(103, 48),
-              primary: const Color(0xff0E1446),
-            ),
-          ),
-        ),
+        // const SizedBox(height: 24),
+        // const Text(
+        //   "Please supply a USDT TRC20 Receipient Wallet Address",
+        //   style: TextStyle(fontWeight: FontWeight.w600),
+        // ),
+        // const SizedBox(height: 8),
+        // Form(
+        //   key: _walletFormKey,
+        //   child: TextFormField(
+        //     controller: teWallet,
+        //     decoration: InputDecoration(
+        //       hintText: 'Wallet address',
+        //       hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
+        //       focusedBorder: OutlineInputBorder(
+        //         borderRadius: BorderRadius.circular(16.0),
+        //         borderSide: const BorderSide(
+        //           color: COLOR.BLUE_SECONDARY,
+        //           width: 1.5,
+        //         ),
+        //       ),
+        //       border: OutlineInputBorder(
+        //         borderRadius: BorderRadius.circular(16),
+        //         borderSide: const BorderSide(
+        //           color: COLOR.GRAY_BORDER,
+        //           width: 1.5,
+        //         ),
+        //       ),
+        //     ),
+        //     validator: (value) {
+        //       if (value == null || value.isEmpty) {
+        //         return 'Please enter Wallet address';
+        //       }
+        //       return null;
+        //     },
+        //   ),
+        // ),
+        // const SizedBox(height: 16),
+        // Align(
+        //   alignment: Alignment.centerRight,
+        //   child: ElevatedButton(
+        //     onPressed: () {
+        //       if (_walletFormKey.currentState!.validate()) {
+        //         updateWallet();
+        //       }
+        //     },
+        //     child: const Text(
+        //       "Submit",
+        //       style: TextStyle(
+        //         fontSize: 16,
+        //         color: Colors.white,
+        //         fontWeight: FontWeight.w600,
+        //       ),
+        //     ),
+        //     style: ElevatedButton.styleFrom(
+        //       shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(8),
+        //       ),
+        //       minimumSize: const Size(103, 48),
+        //       primary: const Color(0xff0E1446),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

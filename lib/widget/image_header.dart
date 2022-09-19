@@ -20,61 +20,55 @@ class ImageHeader extends StatelessWidget {
     final provider = Provider.of<HomeProvider>(context);
 
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.width * 0.75,
-                padding: const EdgeInsets.only(top: 48),
-                alignment: Alignment.topCenter,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(provider.getThemeMode() == ThemeMode.dark
-                        ? dark
-                        : light),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+          Container(
+            height: MediaQuery.of(context).size.width * 0.75,
+            padding: const EdgeInsets.only(top: 48),
+            alignment: Alignment.topCenter,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                    provider.getThemeMode() == ThemeMode.dark ? dark : light),
+                fit: BoxFit.cover,
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                padding: const EdgeInsets.only(top: 48),
-                child: Column(
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.only(top: 48),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          icon:
-                              const Icon(Icons.arrow_back, color: Colors.white),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              title,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 24,
-                                  fontFamily: GoogleFonts.poppins().fontFamily,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 48),
-                      ],
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
-                    const SizedBox(height: 16),
                     Expanded(
-                      child: child,
+                      child: Center(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24,
+                              fontFamily: GoogleFonts.poppins().fontFamily,
+                              color: Colors.white),
+                        ),
+                      ),
                     ),
+                    const SizedBox(width: 48),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                Expanded(
+                  child: child,
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -282,6 +282,29 @@ class Util {
     }
   }
 
+  static Future<String> mailDeposit() async {
+    try {
+      final http.Response response =
+          await http.post(Uri.parse(BASE_URL + API.MAIL_DEPOSIT),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(
+                <String, dynamic>{'app_user_id': Globals.currentUser!.id},
+              ));
+
+      Map<String, dynamic> result = json.decode(response.body);
+
+      if (result[API.RESULT] == true) {
+        return "Success";
+      } else {
+        return result[API.DATA] ?? "";
+      }
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
   static Future<List<Referee>> accountReferees() async {
     try {
       final http.Response response =

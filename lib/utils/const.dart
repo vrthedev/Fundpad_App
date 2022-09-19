@@ -44,6 +44,7 @@ class API {
   static const String UPSERT_PLEDGE = "/pledge/upsert";
   static const String GET_FAQ = "/faq/get";
   static const String GET_NEWS = "/news/get";
+  static const String MAIL_DEPOSIT = "/mail/depositAddress";
 }
 
 bool isNumeric(String s) {
