@@ -71,7 +71,7 @@ class _ReferralTabState extends State<ReferralTab>
               isScrollable: true,
             )),
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           child: Row(
             children: const [
               Text(
@@ -87,13 +87,13 @@ class _ReferralTabState extends State<ReferralTab>
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Spacer(),
-              Text(
-                "Date",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              // Spacer(),
+              // Text(
+              //   "Date",
+              //   style: TextStyle(
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -101,16 +101,33 @@ class _ReferralTabState extends State<ReferralTab>
           child: TabBarView(
             controller: _tabController,
             children: widget.dataMap.values.map((e) {
+              //Unique inverstor ID List
+              List<String> ids = e.map((e) => e.investorID).toSet().toList();
+              List<Map<String, dynamic>> dataList = ids.map((id) {
+                List<Referee> refers =
+                    e.where((e) => e.investorID == id).toList();
+
+                double amount = 0;
+                String name = "";
+                for (var element in refers) {
+                  amount += element.amount;
+                  name = element.investorName;
+                }
+
+                Map<String, dynamic> data = {"name": name, "amount": amount};
+                return data;
+              }).toList();
+
               return ListView.separated(
-                itemCount: e.length,
+                itemCount: dataList.length,
                 itemBuilder: (context, index) {
-                  Referee referee = e[index];
+                  Map<String, dynamic> data = dataList[index];
 
                   return BackWidget(
                     child: Row(
                       children: [
                         Text(
-                          referee.investorName,
+                          data["name"],
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 13,
@@ -120,20 +137,20 @@ class _ReferralTabState extends State<ReferralTab>
                         Text(
                           "\$" +
                               Util.formattedCommaString(
-                                  referee.amount.toStringAsFixed(2)),
+                                  data["amount"].toStringAsFixed(2)),
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 13,
                           ),
                         ),
-                        const Spacer(),
-                        Text(
-                          DateFormat.yMd().format(referee.createdAt),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                          ),
-                        ),
+                        // const Spacer(),
+                        // Text(
+                        //   DateFormat.yMd().format(referee.createdAt),
+                        //   style: const TextStyle(
+                        //     fontWeight: FontWeight.w600,
+                        //     fontSize: 13,
+                        //   ),
+                        // ),
                       ],
                     ),
                   );

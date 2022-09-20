@@ -30,7 +30,8 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             Project project = snapshot.data!;
             if (project.isActive) {
-              int percent = project.fundRaised * 100 ~/ project.fundTarget;
+              int percent =
+                  (project.fundRaised * 100 / project.fundTarget).round();
 
               String target = Util.formattedCommaString(
                   project.fundTarget.toStringAsFixed(2));

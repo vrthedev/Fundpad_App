@@ -223,11 +223,10 @@ class _PledgePageState extends State<PledgePage> {
         //   ),
         // ),
         // const SizedBox(height: 16),
-        Center(
+        const Center(
           child: Text(
-            "Once you submit your pledge you will \nreceive an email on where to send \nyour payment"
-                .toUpperCase(),
-            style: const TextStyle(
+            "Once you submit a pledge amount, we will email the project's wallet address to your registered email ID. Please confirm the last 6 digits on the wallet address are: uCgHkN",
+            style: TextStyle(
               color: COLOR.TEXT_RED,
               fontWeight: FontWeight.w500,
               fontSize: 15,
