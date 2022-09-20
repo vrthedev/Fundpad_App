@@ -105,35 +105,12 @@ class _SupportPageState extends State<SupportPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      launchUrl(Uri.parse("https://www.google.com/"));
-                    },
-                    icon: Image.asset("images/facebook.png"),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      launchUrl(Uri.parse("https://www.google.com/"));
-                    },
-                    icon: Image.asset("images/twitter.png"),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      launchUrl(Uri.parse("https://www.google.com/"));
-                    },
-                    icon: Image.asset("images/instagram.png"),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      launchUrl(Uri.parse("https://www.google.com/"));
-                    },
-                    icon: Image.asset("images/telegram.png"),
-                  ),
-                ],
-              )
+              IconButton(
+                onPressed: () {
+                  launchUrl(Uri.parse("https://www.google.com/"));
+                },
+                icon: Image.asset("images/telegram.png"),
+              ),
             ],
           ),
         ),
