@@ -139,6 +139,11 @@ class _SettingPageState extends State<SettingPage> {
               trailing: Image.asset("images/ic_logout.png"),
             ),
             const Spacer(),
+            Image.asset(
+              'images/logol1.png',
+              height: 120,
+            ),
+            const Spacer(),
             ListTile(
               onTap: showDeleteConfirm,
               title: const Text(

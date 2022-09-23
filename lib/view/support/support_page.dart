@@ -84,6 +84,11 @@ class _SupportPageState extends State<SupportPage> {
           ),
         ),
         const Spacer(),
+        Image.asset(
+          'images/logol1.png',
+          height: 40,
+        ),
+        const Spacer(),
         Container(
           width: double.infinity,
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),

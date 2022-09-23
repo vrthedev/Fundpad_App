@@ -6,6 +6,7 @@ import 'package:fundpad/model/faq.dart';
 import 'package:fundpad/model/pledge.dart';
 import 'package:fundpad/model/project.dart';
 import 'package:fundpad/model/referee.dart';
+import 'package:fundpad/model/referral.dart';
 import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/globals.dart';
 import 'package:http/http.dart' as http;
@@ -320,6 +321,29 @@ class Util {
 
       if (result[API.RESULT] == true) {
         return Referee.fromJsonList(result[API.DATA]);
+      } else {
+        throw result[API.DATA];
+      }
+    } catch (e) {
+      throw 'Connection Error';
+    }
+  }
+
+  static Future<List<Referral>> accountReferrals() async {
+    try {
+      final http.Response response =
+          await http.post(Uri.parse(BASE_URL + API.ACCOUNT_REFERRALS),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(<String, dynamic>{
+                "app_user_id": Globals.currentUser!.id,
+              }));
+
+      Map<String, dynamic> result = json.decode(response.body);
+
+      if (result[API.RESULT] == true) {
+        return Referral.fromJsonList(result[API.DATA]);
       } else {
         throw result[API.DATA];
       }

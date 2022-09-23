@@ -57,31 +57,41 @@ class CommissionPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Row(
                 children: const [
-                  Text(
-                    "Month",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      "Month",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Spacer(),
-                  Text(
-                    "Amount",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      "%",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Spacer(),
-                  Text(
-                    "%",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      "Profit",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Spacer(),
-                  Text(
-                    "Commissions",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      "Commissions",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -98,39 +108,48 @@ class CommissionPage extends StatelessWidget {
                 return BackWidget(
                   child: Row(
                     children: [
-                      Text(
-                        payout.profitName,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
+                      Expanded(
+                        flex: 4,
+                        child: Text(
+                          payout.profitName,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
                         ),
                       ),
-                      const Spacer(),
-                      Text(
-                        "\$" +
-                            Util.formattedCommaString(
-                                payout.baseAmount.toStringAsFixed(2)),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          payout.percentage.toString() + "%",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
                         ),
                       ),
-                      const Spacer(),
-                      Text(
-                        payout.percentage.toString() + "%",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          "\$" +
+                              Util.formattedCommaString(
+                                  payout.baseAmount.toStringAsFixed(2)),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
                         ),
                       ),
-                      const Spacer(),
-                      Text(
-                        "\$" +
-                            Util.formattedCommaString(
-                                payout.amount.toStringAsFixed(2)),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          "\$" +
+                              Util.formattedCommaString(
+                                  payout.amount.toStringAsFixed(2)),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
                         ),
                       ),
                     ],

@@ -180,13 +180,13 @@ class AccountPage extends StatelessWidget {
                                 builder: (context) => const ImageHeader(
                                     light: "images/purple_light.png",
                                     dark: "images/purple_dark.png",
-                                    title: "Referral Commissions",
+                                    title: "Referrals / Commissions",
                                     child: ReferralCommissions()),
                               ),
                             );
                           },
                           child: const Text(
-                            "Referral Commissions",
+                            "Referrals / Commissions",
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,

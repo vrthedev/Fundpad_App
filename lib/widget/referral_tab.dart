@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fundpad/model/referee.dart';
+import 'package:fundpad/model/referral.dart';
 import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/util.dart';
 import 'package:fundpad/widget/back_widget.dart';
-import 'package:intl/intl.dart';
 
 class ReferralTab extends StatefulWidget {
   const ReferralTab({Key? key, required this.dataMap}) : super(key: key);
 
-  final Map<String, List<Referee>> dataMap;
+  final Map<String, List<Referral>> dataMap;
 
   @override
   State<ReferralTab> createState() => _ReferralTabState();
@@ -74,26 +73,32 @@ class _ReferralTabState extends State<ReferralTab>
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           child: Row(
             children: const [
-              Text(
-                "Referral",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                flex: 2,
+                child: Text(
+                  "Referrals",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              Spacer(),
-              Text(
-                "Amount",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: Text(
+                  "Profit",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              // Spacer(),
-              // Text(
-              //   "Date",
-              //   style: TextStyle(
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
+              Expanded(
+                child: Text(
+                  "Commission",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
           ),
         ),
@@ -102,55 +107,66 @@ class _ReferralTabState extends State<ReferralTab>
             controller: _tabController,
             children: widget.dataMap.values.map((e) {
               //Unique inverstor ID List
-              List<String> ids = e.map((e) => e.investorID).toSet().toList();
-              List<Map<String, dynamic>> dataList = ids.map((id) {
-                List<Referee> refers =
-                    e.where((e) => e.investorID == id).toList();
-
-                double amount = 0;
-                String name = "";
-                for (var element in refers) {
-                  amount += element.amount;
-                  name = element.investorName;
-                }
-
-                Map<String, dynamic> data = {"name": name, "amount": amount};
-                return data;
-              }).toList();
 
               return ListView.separated(
-                itemCount: dataList.length,
+                itemCount: e.length,
                 itemBuilder: (context, index) {
-                  Map<String, dynamic> data = dataList[index];
+                  Referral referral = e[index];
 
                   return BackWidget(
                     child: Row(
                       children: [
-                        Text(
-                          data["name"],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                referral.fullname,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                "\$" +
+                                    Util.formattedCommaString(referral
+                                        .confirmedAmount
+                                        .toStringAsFixed(2)),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13,
+                                    color: COLOR.BLUE_PRIMARY),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
                           ),
                         ),
-                        const Spacer(),
-                        Text(
-                          "\$" +
-                              Util.formattedCommaString(
-                                  data["amount"].toStringAsFixed(2)),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
+                        Expanded(
+                          child: Text(
+                            "\$" +
+                                Util.formattedCommaString(referral
+                                    .investorPayouts
+                                    .toStringAsFixed(2)),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        // const Spacer(),
-                        // Text(
-                        //   DateFormat.yMd().format(referee.createdAt),
-                        //   style: const TextStyle(
-                        //     fontWeight: FontWeight.w600,
-                        //     fontSize: 13,
-                        //   ),
-                        // ),
+                        Expanded(
+                          child: Text(
+                            "\$" +
+                                Util.formattedCommaString(
+                                    referral.commissions.toStringAsFixed(2)),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   );

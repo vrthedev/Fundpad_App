@@ -36,9 +36,13 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                Image.asset(provider.getThemeMode() == ThemeMode.dark
-                    ? "images/logo_welcome_white.png"
-                    : "images/logo_welcome_black.png"),
+                // Image.asset(provider.getThemeMode() == ThemeMode.dark
+                //     ? "images/logo_welcome_white.png"
+                //     : "images/logo_welcome_black.png"),
+                Image.asset(
+                  'images/logol1.png',
+                  height: 40,
+                ),
                 const SizedBox(height: 24),
                 const Text(
                   "Welcome back",

@@ -32,7 +32,14 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       backgroundColor: COLOR.SPLASH_BACKGROUND,
       body: Center(
-        child: Image.asset('images/logo.png'),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Image.asset('images/logo.png'),
+          const SizedBox(height: 40),
+          Image.asset(
+            'images/logol1.png',
+            height: MediaQuery.of(context).size.width / 2,
+          ),
+        ]),
       ),
     );
   }

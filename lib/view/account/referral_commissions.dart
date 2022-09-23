@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fundpad/model/referee.dart';
+import 'package:fundpad/model/referral.dart';
 import 'package:fundpad/utils/util.dart';
 import 'package:fundpad/widget/referral_tab.dart';
 import 'package:intl/intl.dart';
@@ -16,16 +17,16 @@ class ReferralCommissions extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
           color: Theme.of(context).scaffoldBackgroundColor),
-      child: FutureBuilder<List<Referee>>(
-          future: Util.accountReferees(),
+      child: FutureBuilder<List<Referral>>(
+          future: Util.accountReferrals(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<Referee> referees = snapshot.data!;
+              List<Referral> referees = snapshot.data!;
 
               DateFormat formatter = DateFormat.yMMM();
-              Map<String, List<Referee>> dataMap = {};
+              Map<String, List<Referral>> dataMap = {};
               String key = "";
-              List<Referee> data = [];
+              List<Referral> data = [];
 
               for (var e in referees) {
                 if (formatter.format(e.createdAt) != key) {

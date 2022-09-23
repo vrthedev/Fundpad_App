@@ -3,8 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-const String BASE_URL = "http://159.223.141.69:8000/api";
-// const String BASE_URL = "http://10.10.11.153:8000";
+const String BASE_URL = "https://xeaufaashbvr.legacy1.co.uk/api";
 
 class COLOR {
   static const Color SPLASH_BACKGROUND = Color(0xff0E1446);
@@ -40,6 +39,7 @@ class API {
   static const String GET_PROJECT = "/project/get";
   static const String ACCOUNT_INFO = "/account/info";
   static const String ACCOUNT_REFEREES = "/account/referees";
+  static const String ACCOUNT_REFERRALS = "/account/referrals";
   static const String GET_PLEDGE = "/pledge/get";
   static const String UPSERT_PLEDGE = "/pledge/upsert";
   static const String GET_FAQ = "/faq/get";

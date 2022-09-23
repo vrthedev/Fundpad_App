@@ -90,6 +90,7 @@ class _PledgePageState extends State<PledgePage> {
           key: _amountFormKey,
           child: TextFormField(
             controller: teAmount,
+            enabled: pledge.id.isEmpty,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             decoration: InputDecoration(
               hintText: 'Amount',
@@ -288,14 +289,25 @@ class _PledgePageState extends State<PledgePage> {
           child: ElevatedButton(
             onPressed: pledge.id.isEmpty
                 ? null
-                : () {
+                : () async {
                     if (_txFormKey.currentState!.validate()) {
                       Map<String, dynamic> data = {
                         '_id': pledge.id,
                         'transaction': teTransaction.text,
+                        'investor_id': Globals.currentUser!.id,
+                        'amount': teAmount.text,
                       };
 
-                      upsertPledge(data);
+                      print(data);
+
+                      bool isSuccess = await upsertPledge(data);
+                      if (isSuccess) {
+                        teAmount.clear();
+                        teTransaction.clear();
+                        setState(() {
+                          pledge = Pledge.fromJson({});
+                        });
+                      }
                     }
                   },
             child: const Text(
@@ -381,7 +393,7 @@ class _PledgePageState extends State<PledgePage> {
     );
   }
 
-  void upsertPledge(Map<String, dynamic> data) async {
+  Future<bool> upsertPledge(Map<String, dynamic> data) async {
     FocusScope.of(context).unfocus();
 
     try {
@@ -395,8 +407,11 @@ class _PledgePageState extends State<PledgePage> {
       setState(() {
         pledge.id = result;
       });
+
+      return true;
     } catch (e) {
       showToast(e.toString());
+      return false;
     }
   }
 
