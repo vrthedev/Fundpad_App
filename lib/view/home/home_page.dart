@@ -11,6 +11,7 @@ import 'package:fundpad/view/home/pledge_page.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -186,72 +187,135 @@ class _HomePageState extends State<HomePage> {
                           top: Radius.circular(16),
                         ),
                       ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {},
-                              child: Container(
-                                constraints:
-                                    const BoxConstraints(minHeight: 140),
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    border:
-                                        Border.all(color: COLOR.BLUE_PRIMARY)),
-                                alignment: Alignment.center,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset("images/ic_document.png"),
-                                    const SizedBox(height: 8),
-                                    const Text(
-                                      "Contract\nAgreement",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                      child: Column(children: [
+                        ElevatedButton(
+                          onPressed: () => getMyLastPledge(project),
+                          child: const Text(
+                            "PLEDGE",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                getMyLastPledge(project);
-                              },
-                              child: Container(
-                                constraints:
-                                    const BoxConstraints(minHeight: 140),
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                  border:
-                                      Border.all(color: COLOR.ORANGE_PRIMARY),
-                                ),
-                                alignment: Alignment.center,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset("images/ic_pledge.png"),
-                                    const SizedBox(height: 8),
-                                    const Text(
-                                      "Pledge\nMoney",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            minimumSize: const Size(double.infinity, 60),
+                            primary: COLOR.ORANGE_PRIMARY,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            launchUrl(Uri.parse(SOUT_AGREE));
+                          },
+                          child: const Text(
+                            "SOUTHONE AGREEMENT",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ],
-                      ),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            minimumSize: const Size(double.infinity, 60),
+                            primary: COLOR.BLUE_PRIMARY,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            launchUrl(Uri.parse(USER_AGREE));
+                          },
+                          child: const Text(
+                            "USER AGREEMENT",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            minimumSize: const Size(double.infinity, 60),
+                            primary: COLOR.BLUE_PRIMARY,
+                          ),
+                        ),
+                      ]),
+
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: InkWell(
+                      //         onTap: () {},
+                      //         child: Container(
+                      //           constraints:
+                      //               const BoxConstraints(minHeight: 140),
+                      //           padding: const EdgeInsets.all(16),
+                      //           decoration: BoxDecoration(
+                      //               borderRadius: BorderRadius.circular(16),
+                      //               border:
+                      //                   Border.all(color: COLOR.BLUE_PRIMARY)),
+                      //           alignment: Alignment.center,
+                      //           child: Column(
+                      //             mainAxisSize: MainAxisSize.min,
+                      //             children: [
+                      //               Image.asset("images/ic_document.png"),
+                      //               const SizedBox(height: 8),
+                      //               const Text(
+                      //                 "Contract\nAgreement",
+                      //                 style: TextStyle(
+                      //                   fontWeight: FontWeight.w600,
+                      //                   fontSize: 16,
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     const SizedBox(width: 16),
+                      //     Expanded(
+                      //       child: InkWell(
+                      //         onTap: () {
+                      //           getMyLastPledge(project);
+                      //         },
+                      //         child: Container(
+                      //           constraints:
+                      //               const BoxConstraints(minHeight: 140),
+                      //           padding: const EdgeInsets.all(16),
+                      //           decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.circular(16),
+                      //             border:
+                      //                 Border.all(color: COLOR.ORANGE_PRIMARY),
+                      //           ),
+                      //           alignment: Alignment.center,
+                      //           child: Column(
+                      //             mainAxisSize: MainAxisSize.min,
+                      //             children: [
+                      //               Image.asset("images/ic_pledge.png"),
+                      //               const SizedBox(height: 8),
+                      //               const Text(
+                      //                 "Pledge\nMoney",
+                      //                 style: TextStyle(
+                      //                   fontWeight: FontWeight.w600,
+                      //                   fontSize: 16,
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     )
                   ],
                 ),

@@ -26,11 +26,12 @@ class _PledgePageState extends State<PledgePage> {
   final _amountFormKey = GlobalKey<FormState>();
   final _txFormKey = GlobalKey<FormState>();
   final _walletFormKey = GlobalKey<FormState>();
-  final teWallet = TextEditingController(text: Globals.currentUser!.wallet);
+  final teWallet = TextEditingController();
   final teAmount = TextEditingController();
   final teTransaction = TextEditingController();
 
   late Pledge pledge;
+  bool isSubmitted = false;
 
   @override
   void initState() {
@@ -60,6 +61,19 @@ class _PledgePageState extends State<PledgePage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            isSubmitted
+                ? const Padding(
+                    padding: EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      "You have already submitted your pledge, TXID and Wallet address. Please wait for admin to approve your submission. You may also submit a new pledge.",
+                      style: TextStyle(
+                        color: COLOR.TEXT_RED,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                      ),
+                    ),
+                  )
+                : Container(),
             const Text(
               "My Pledge",
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
@@ -118,7 +132,7 @@ class _PledgePageState extends State<PledgePage> {
               } else {
                 double v = double.tryParse(value) ?? 0;
                 if (v < 500) {
-                  return "It's too small";
+                  return "Please submit more than \$500";
                 }
               }
               return null;
@@ -126,16 +140,16 @@ class _PledgePageState extends State<PledgePage> {
           ),
         ),
         const SizedBox(height: 8),
-        // Center(
-        //   child: Text(
-        //     "All Payments in USDT  TRC20 Only".toUpperCase(),
-        //     style: const TextStyle(
-        //       color: COLOR.TEXT_RED,
-        //       fontWeight: FontWeight.w500,
-        //       fontSize: 15,
-        //     ),
-        //   ),
-        // ),
+        Center(
+          child: Text(
+            "All Payments in USDT  TRC20 Only".toUpperCase(),
+            style: const TextStyle(
+              color: COLOR.TEXT_RED,
+              fontWeight: FontWeight.w500,
+              fontSize: 15,
+            ),
+          ),
+        ),
         const SizedBox(height: 8),
         Align(
           alignment: Alignment.centerRight,
@@ -143,13 +157,16 @@ class _PledgePageState extends State<PledgePage> {
             onPressed: pledge.id.isEmpty
                 ? () {
                     if (_amountFormKey.currentState!.validate()) {
-                      Map<String, dynamic> data = {
-                        'investor_id': Globals.currentUser!.id,
-                        'amount': teAmount.text,
-                      };
+                      showConfirmDialog(
+                          "Confirm your Pledge to send \$" + teAmount.text, () {
+                        Map<String, dynamic> data = {
+                          'investor_id': Globals.currentUser!.id,
+                          'amount': teAmount.text,
+                        };
 
-                      upsertPledge(data);
-                      Util.mailDeposit();
+                        upsertPledge(data);
+                        Util.mailDeposit();
+                      });
                     }
                   }
                 : null,
@@ -224,20 +241,22 @@ class _PledgePageState extends State<PledgePage> {
         //   ),
         // ),
         // const SizedBox(height: 16),
-        const Center(
-          child: Text(
-            "Once you submit a pledge amount, we will email the project's wallet address to your registered email ID. Please confirm the last 6 digits on the wallet address are: uCgHkN",
-            style: TextStyle(
-              color: COLOR.TEXT_RED,
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
+        pledge.id.isEmpty
+            ? Container()
+            : const Center(
+                child: Text(
+                  "Once you submit a pledge amount, we will email the project's wallet address to your registered email ID. Please confirm the last 6 digits on the wallet address are: uCgHkN",
+                  style: TextStyle(
+                    color: COLOR.TEXT_RED,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
         const SizedBox(height: 8),
         const Text(
-          "Once payment is sent pledge submit your TX ID below",
+          "Once payment is sent pledge submit your TXID below",
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
@@ -289,25 +308,29 @@ class _PledgePageState extends State<PledgePage> {
           child: ElevatedButton(
             onPressed: pledge.id.isEmpty
                 ? null
-                : () async {
+                : () {
                     if (_txFormKey.currentState!.validate()) {
-                      Map<String, dynamic> data = {
-                        '_id': pledge.id,
-                        'transaction': teTransaction.text,
-                        'investor_id': Globals.currentUser!.id,
-                        'amount': teAmount.text,
-                      };
+                      showConfirmDialog("Is your TXID " + teTransaction.text,
+                          () async {
+                        Map<String, dynamic> data = {
+                          '_id': pledge.id,
+                          'transaction': teTransaction.text,
+                          'investor_id': Globals.currentUser!.id,
+                          'amount': teAmount.text,
+                        };
 
-                      print(data);
+                        print(data);
 
-                      bool isSuccess = await upsertPledge(data);
-                      if (isSuccess) {
-                        teAmount.clear();
-                        teTransaction.clear();
-                        setState(() {
-                          pledge = Pledge.fromJson({});
-                        });
-                      }
+                        bool isSuccess = await upsertPledge(data);
+                        if (isSuccess) {
+                          teAmount.clear();
+                          teTransaction.clear();
+                          setState(() {
+                            pledge = Pledge.fromJson({});
+                            isSubmitted = true;
+                          });
+                        }
+                      });
                     }
                   },
             child: const Text(
@@ -327,68 +350,74 @@ class _PledgePageState extends State<PledgePage> {
             ),
           ),
         ),
-        // const SizedBox(height: 24),
-        // const Text(
-        //   "Please supply a USDT TRC20 Receipient Wallet Address",
-        //   style: TextStyle(fontWeight: FontWeight.w600),
-        // ),
-        // const SizedBox(height: 8),
-        // Form(
-        //   key: _walletFormKey,
-        //   child: TextFormField(
-        //     controller: teWallet,
-        //     decoration: InputDecoration(
-        //       hintText: 'Wallet address',
-        //       hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
-        //       focusedBorder: OutlineInputBorder(
-        //         borderRadius: BorderRadius.circular(16.0),
-        //         borderSide: const BorderSide(
-        //           color: COLOR.BLUE_SECONDARY,
-        //           width: 1.5,
-        //         ),
-        //       ),
-        //       border: OutlineInputBorder(
-        //         borderRadius: BorderRadius.circular(16),
-        //         borderSide: const BorderSide(
-        //           color: COLOR.GRAY_BORDER,
-        //           width: 1.5,
-        //         ),
-        //       ),
-        //     ),
-        //     validator: (value) {
-        //       if (value == null || value.isEmpty) {
-        //         return 'Please enter Wallet address';
-        //       }
-        //       return null;
-        //     },
-        //   ),
-        // ),
-        // const SizedBox(height: 16),
-        // Align(
-        //   alignment: Alignment.centerRight,
-        //   child: ElevatedButton(
-        //     onPressed: () {
-        //       if (_walletFormKey.currentState!.validate()) {
-        //         updateWallet();
-        //       }
-        //     },
-        //     child: const Text(
-        //       "Submit",
-        //       style: TextStyle(
-        //         fontSize: 16,
-        //         color: Colors.white,
-        //         fontWeight: FontWeight.w600,
-        //       ),
-        //     ),
-        //     style: ElevatedButton.styleFrom(
-        //       shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(8),
-        //       ),
-        //       minimumSize: const Size(103, 48),
-        //       primary: const Color(0xff0E1446),
-        //     ),
-        //   ),
-        // ),
+        const SizedBox(height: 24),
+        const Text(
+          "Please supply a USDT TRC20 Receipient Wallet Address",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 8),
+        Form(
+          key: _walletFormKey,
+          child: TextFormField(
+            controller: teWallet,
+            decoration: InputDecoration(
+              hintText: 'Wallet address',
+              hintStyle: const TextStyle(color: COLOR.TEXT_HINT),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                borderSide: const BorderSide(
+                  color: COLOR.BLUE_SECONDARY,
+                  width: 1.5,
+                ),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                  color: COLOR.GRAY_BORDER,
+                  width: 1.5,
+                ),
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter Wallet address';
+              }
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 16),
+        Align(
+          alignment: Alignment.centerRight,
+          child: ElevatedButton(
+            onPressed: !isSubmitted
+                ? null
+                : () {
+                    if (_walletFormKey.currentState!.validate()) {
+                      String message =
+                          "Is this USDT TRC20 wallet address?\nWe will send your paymentws to this wallet. You can change it in settings.";
+                      showConfirmDialog(message, () {
+                        updateWallet();
+                      });
+                    }
+                  },
+            child: const Text(
+              "Submit",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              minimumSize: const Size(103, 48),
+              primary: const Color(0xff0E1446),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -432,5 +461,27 @@ class _PledgePageState extends State<PledgePage> {
     } else {
       showToast(result);
     }
+  }
+
+  void showConfirmDialog(String message, VoidCallback callback) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Confirm"),
+              content: Text(
+                message,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("Cancel")),
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      callback();
+                    },
+                    child: const Text("Confirm")),
+              ],
+            ));
   }
 }

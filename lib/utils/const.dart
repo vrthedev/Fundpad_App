@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 const String BASE_URL = "https://xeaufaashbvr.legacy1.co.uk/api";
+const String SOUT_AGREE = "https://legacy1.co.uk/agreement1.pdf";
+const String USER_AGREE = "https://legacy1.co.uk/agreement2.pdf";
 
 class COLOR {
   static const Color SPLASH_BACKGROUND = Color(0xff0E1446);

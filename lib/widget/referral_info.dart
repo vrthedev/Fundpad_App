@@ -42,7 +42,7 @@ class ReferralInfo extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: const Color(0xFF0e1446))),
             child: QrImage(
-              data: code,
+              data: "https://www.legacy1.co.uk/register?referral=" + code,
               version: QrVersions.auto,
               size: 80,
               eyeStyle: QrEyeStyle(

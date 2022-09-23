@@ -4,6 +4,7 @@ import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/view/account/account_page.dart';
 import 'package:fundpad/view/home/home_page.dart';
 import 'package:fundpad/view/news/news_page.dart';
+import 'package:fundpad/view/news/terms_page.dart';
 import 'package:fundpad/view/profile/profile_page.dart';
 import 'package:fundpad/view/support/support_page.dart';
 import 'package:fundpad/view/welcome/login_page.dart';
@@ -28,9 +29,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
     tabs = const [
       HomePage(),
-      NewsPage(),
-      AccountPage(),
       SupportPage(),
+      AccountPage(),
+      NewsPage(),
       ProfilePage()
     ];
   }
