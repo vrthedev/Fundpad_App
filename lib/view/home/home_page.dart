@@ -207,10 +207,10 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
-                          launchUrl(Uri.parse(SOUT_AGREE));
+                          launchUrl(Uri.parse(SOUT_OVERVIEW));
                         },
                         child: const Text(
-                          "SOUTHONE AGREEMENT",
+                          "SOUTHONE OVERVIEW",
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.white,

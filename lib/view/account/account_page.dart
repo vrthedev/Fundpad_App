@@ -220,7 +220,7 @@ class AccountPage extends StatelessWidget {
                             );
                           },
                           child: const Text(
-                            "Referrals / Commissions",
+                            "Commissions Breakdown",
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,
