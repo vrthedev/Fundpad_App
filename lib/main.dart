@@ -11,7 +11,9 @@ import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/globals.dart';
 import 'package:fundpad/view/welcome/splash_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -79,6 +81,11 @@ class MyApp extends StatelessWidget {
       child: Consumer<HomeProvider>(
         builder: (context, provider, child) {
           return MaterialApp(
+            localizationsDelegates: const [
+              GlobalWidgetsLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              MonthYearPickerLocalizations.delegate,
+            ],
             debugShowCheckedModeBanner: false,
             title: 'Fundpad',
             theme: ThemeData(

@@ -19,7 +19,7 @@ class Pledge {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      '_id': id,
       'amount': amount,
       'transaction': transaction,
       'status': status,
@@ -29,7 +29,7 @@ class Pledge {
 
   factory Pledge.fromJson(Map<String, dynamic> map) {
     return Pledge(
-      id: map['id'] ?? "",
+      id: map['_id'] ?? "",
       amount: (map['amount'] == null) ? 0 : map['amount'].toDouble(),
       transaction: map['transaction'] ?? "",
       status: map['status'] ?? 0,

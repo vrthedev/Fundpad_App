@@ -5,9 +5,11 @@ import 'package:fundpad/utils/util.dart';
 import 'package:fundpad/widget/back_widget.dart';
 
 class ReferralTab extends StatefulWidget {
-  const ReferralTab({Key? key, required this.dataMap}) : super(key: key);
+  const ReferralTab({Key? key, required this.dataMap, this.smonth})
+      : super(key: key);
 
   final Map<String, List<Referral>> dataMap;
+  final String? smonth;
 
   @override
   State<ReferralTab> createState() => _ReferralTabState();
@@ -23,6 +25,13 @@ class _ReferralTabState extends State<ReferralTab>
 
     _tabController = TabController(length: widget.dataMap.length, vsync: this);
     _tabController.addListener(() => setState(() {}));
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      if (widget.smonth != null &&
+          widget.dataMap.keys.toList().contains(widget.smonth!)) {
+        int index = widget.dataMap.keys.toList().indexOf(widget.smonth!);
+        _tabController.animateTo(index);
+      }
+    });
   }
 
   @override
@@ -122,7 +131,7 @@ class _ReferralTabState extends State<ReferralTab>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                referral.fullname,
+                                referral.appUserName,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 13,
@@ -131,9 +140,8 @@ class _ReferralTabState extends State<ReferralTab>
                               ),
                               Text(
                                 "\$" +
-                                    Util.formattedCommaString(referral
-                                        .confirmedAmount
-                                        .toStringAsFixed(2)),
+                                    Util.formattedCommaString(
+                                        referral.baseAmount.toStringAsFixed(2)),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 13,
@@ -146,9 +154,8 @@ class _ReferralTabState extends State<ReferralTab>
                         Expanded(
                           child: Text(
                             "\$" +
-                                Util.formattedCommaString(referral
-                                    .investorPayouts
-                                    .toStringAsFixed(2)),
+                                Util.formattedCommaString(
+                                    referral.amount.toStringAsFixed(2)),
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 13,
@@ -160,7 +167,7 @@ class _ReferralTabState extends State<ReferralTab>
                           child: Text(
                             "\$" +
                                 Util.formattedCommaString(
-                                    referral.commissions.toStringAsFixed(2)),
+                                    (referral.amount / 5).toStringAsFixed(2)),
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 13,

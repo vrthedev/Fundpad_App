@@ -30,299 +30,294 @@ class _HomePageState extends State<HomePage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             Project project = snapshot.data!;
-            if (project.isActive) {
-              int percent =
-                  (project.fundRaised * 100 / project.fundTarget).round();
+            int percent =
+                (project.fundRaised * 100 / project.fundTarget).round();
 
-              String target = Util.formattedCommaString(
-                  project.fundTarget.toStringAsFixed(2));
-              String balance = Util.formattedCommaString(
-                  project.fundRaised.toStringAsFixed(2));
+            String target = Util.formattedCommaString(
+                project.fundTarget.toInt().toString());
+            String balance = Util.formattedCommaString(
+                project.fundRaised.toInt().toString());
 
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset("images/ic_profile.png", width: 52),
-                              const SizedBox(width: 16),
-                              Text(
-                                Globals.currentUser!.fullname,
-                                style: const TextStyle(
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset("images/ic_profile.png", width: 52),
+                            const SizedBox(width: 16),
+                            Text(
+                              Globals.currentUser!.fullname,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        CircularPercentIndicator(
+                          radius: 110.0,
+                          lineWidth: 20.0,
+                          percent: project.fundRaised / project.fundTarget,
+                          center: Container(
+                            width: 164,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: provider.getThemeMode() ==
+                                            ThemeMode.dark
+                                        ? const [
+                                            Color(0xff29292B),
+                                            Color(0xff1F1F21)
+                                          ]
+                                        : const [
+                                            Color(0xffD7D8E5),
+                                            Color(0xffFAFAFF)
+                                          ]),
+                                boxShadow: provider.getThemeMode() ==
+                                        ThemeMode.dark
+                                    ? [
+                                        BoxShadow(
+                                            offset: const Offset(0, -6.8),
+                                            blurRadius: 6.8,
+                                            spreadRadius: 0,
+                                            color: const Color(0xff1D1E1F)
+                                                .withOpacity(0.5)),
+                                        BoxShadow(
+                                            offset: const Offset(0, 6.8),
+                                            blurRadius: 14.8,
+                                            spreadRadius: 0,
+                                            color: const Color(0xff141416)
+                                                .withOpacity(0.6)),
+                                      ]
+                                    : [
+                                        BoxShadow(
+                                            offset: const Offset(0, -5.39),
+                                            blurRadius: 5.39,
+                                            spreadRadius: 0,
+                                            color:
+                                                Colors.white.withOpacity(0.5)),
+                                        BoxShadow(
+                                            offset: const Offset(0, 5.39),
+                                            blurRadius: 5.39,
+                                            spreadRadius: 0,
+                                            color: const Color(0xffDEDEDE)
+                                                .withOpacity(0.5)),
+                                      ]),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "$percent%",
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 20,
+                                  fontSize: 48,
+                                  color: COLOR.ORANGE_PRIMARY),
+                            ),
+                          ),
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: COLOR.BLUE_PRIMARY,
+                          backgroundColor:
+                              provider.getThemeMode() == ThemeMode.dark
+                                  ? const Color(0xff0D0D0D)
+                                  : const Color(0xff000000).withOpacity(0.06),
+                          animation: true,
+                          footer: Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      "\$" + target,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 28,
+                                      ),
+                                    ),
+                                    const Text(
+                                      "Target",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: COLOR.TEXT_HINT,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          CircularPercentIndicator(
-                            radius: 110.0,
-                            lineWidth: 20.0,
-                            percent: project.fundRaised / project.fundTarget,
-                            center: Container(
-                              width: 164,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: provider.getThemeMode() ==
-                                              ThemeMode.dark
-                                          ? const [
-                                              Color(0xff29292B),
-                                              Color(0xff1F1F21)
-                                            ]
-                                          : const [
-                                              Color(0xffD7D8E5),
-                                              Color(0xffFAFAFF)
-                                            ]),
-                                  boxShadow: provider.getThemeMode() ==
-                                          ThemeMode.dark
-                                      ? [
-                                          BoxShadow(
-                                              offset: const Offset(0, -6.8),
-                                              blurRadius: 6.8,
-                                              spreadRadius: 0,
-                                              color: const Color(0xff1D1E1F)
-                                                  .withOpacity(0.5)),
-                                          BoxShadow(
-                                              offset: const Offset(0, 6.8),
-                                              blurRadius: 14.8,
-                                              spreadRadius: 0,
-                                              color: const Color(0xff141416)
-                                                  .withOpacity(0.6)),
-                                        ]
-                                      : [
-                                          BoxShadow(
-                                              offset: const Offset(0, -5.39),
-                                              blurRadius: 5.39,
-                                              spreadRadius: 0,
-                                              color: Colors.white
-                                                  .withOpacity(0.5)),
-                                          BoxShadow(
-                                              offset: const Offset(0, 5.39),
-                                              blurRadius: 5.39,
-                                              spreadRadius: 0,
-                                              color: const Color(0xffDEDEDE)
-                                                  .withOpacity(0.5)),
-                                        ]),
-                              alignment: Alignment.center,
-                              child: Text(
-                                "$percent%",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 48,
-                                    color: COLOR.ORANGE_PRIMARY),
-                              ),
-                            ),
-                            circularStrokeCap: CircularStrokeCap.round,
-                            progressColor: COLOR.BLUE_PRIMARY,
-                            backgroundColor:
-                                provider.getThemeMode() == ThemeMode.dark
-                                    ? const Color(0xff0D0D0D)
-                                    : const Color(0xff000000).withOpacity(0.06),
-                            animation: true,
-                            footer: Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "\$" + target,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 28,
-                                        ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      "\$" + balance,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 28,
                                       ),
-                                      const Text(
-                                        "Target",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: COLOR.TEXT_HINT,
-                                        ),
+                                    ),
+                                    const Text(
+                                      "Balance",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: COLOR.TEXT_HINT,
                                       ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "\$" + balance,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 28,
-                                        ),
-                                      ),
-                                      const Text(
-                                        "Balance",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: COLOR.TEXT_HINT,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: provider.getThemeMode() == ThemeMode.dark
+                          ? COLOR.BLACK_BACK
+                          : Colors.white,
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(16),
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: provider.getThemeMode() == ThemeMode.dark
-                            ? COLOR.BLACK_BACK
-                            : Colors.white,
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(16),
+                    child: Column(children: [
+                      ElevatedButton(
+                        onPressed: () => getMyLastPledge(project),
+                        child: const Text(
+                          "PLEDGE",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          minimumSize: const Size(double.infinity, 60),
+                          primary: COLOR.ORANGE_PRIMARY,
                         ),
                       ),
-                      child: Column(children: [
-                        ElevatedButton(
-                          onPressed: () => getMyLastPledge(project),
-                          child: const Text(
-                            "PLEDGE",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            minimumSize: const Size(double.infinity, 60),
-                            primary: COLOR.ORANGE_PRIMARY,
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          launchUrl(Uri.parse(SOUT_AGREE));
+                        },
+                        child: const Text(
+                          "SOUTHONE AGREEMENT",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () {
-                            launchUrl(Uri.parse(SOUT_AGREE));
-                          },
-                          child: const Text(
-                            "SOUTHONE AGREEMENT",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            minimumSize: const Size(double.infinity, 60),
-                            primary: COLOR.BLUE_PRIMARY,
+                          minimumSize: const Size(double.infinity, 60),
+                          primary: COLOR.BLUE_PRIMARY,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          launchUrl(Uri.parse(USER_AGREE));
+                        },
+                        child: const Text(
+                          "USER AGREEMENT",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () {
-                            launchUrl(Uri.parse(USER_AGREE));
-                          },
-                          child: const Text(
-                            "USER AGREEMENT",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            minimumSize: const Size(double.infinity, 60),
-                            primary: COLOR.BLUE_PRIMARY,
-                          ),
+                          minimumSize: const Size(double.infinity, 60),
+                          primary: COLOR.BLUE_PRIMARY,
                         ),
-                      ]),
+                      ),
+                    ]),
 
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: InkWell(
-                      //         onTap: () {},
-                      //         child: Container(
-                      //           constraints:
-                      //               const BoxConstraints(minHeight: 140),
-                      //           padding: const EdgeInsets.all(16),
-                      //           decoration: BoxDecoration(
-                      //               borderRadius: BorderRadius.circular(16),
-                      //               border:
-                      //                   Border.all(color: COLOR.BLUE_PRIMARY)),
-                      //           alignment: Alignment.center,
-                      //           child: Column(
-                      //             mainAxisSize: MainAxisSize.min,
-                      //             children: [
-                      //               Image.asset("images/ic_document.png"),
-                      //               const SizedBox(height: 8),
-                      //               const Text(
-                      //                 "Contract\nAgreement",
-                      //                 style: TextStyle(
-                      //                   fontWeight: FontWeight.w600,
-                      //                   fontSize: 16,
-                      //                 ),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     const SizedBox(width: 16),
-                      //     Expanded(
-                      //       child: InkWell(
-                      //         onTap: () {
-                      //           getMyLastPledge(project);
-                      //         },
-                      //         child: Container(
-                      //           constraints:
-                      //               const BoxConstraints(minHeight: 140),
-                      //           padding: const EdgeInsets.all(16),
-                      //           decoration: BoxDecoration(
-                      //             borderRadius: BorderRadius.circular(16),
-                      //             border:
-                      //                 Border.all(color: COLOR.ORANGE_PRIMARY),
-                      //           ),
-                      //           alignment: Alignment.center,
-                      //           child: Column(
-                      //             mainAxisSize: MainAxisSize.min,
-                      //             children: [
-                      //               Image.asset("images/ic_pledge.png"),
-                      //               const SizedBox(height: 8),
-                      //               const Text(
-                      //                 "Pledge\nMoney",
-                      //                 style: TextStyle(
-                      //                   fontWeight: FontWeight.w600,
-                      //                   fontSize: 16,
-                      //                 ),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    )
-                  ],
-                ),
-              );
-            } else {
-              return Container();
-            }
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       child: InkWell(
+                    //         onTap: () {},
+                    //         child: Container(
+                    //           constraints:
+                    //               const BoxConstraints(minHeight: 140),
+                    //           padding: const EdgeInsets.all(16),
+                    //           decoration: BoxDecoration(
+                    //               borderRadius: BorderRadius.circular(16),
+                    //               border:
+                    //                   Border.all(color: COLOR.BLUE_PRIMARY)),
+                    //           alignment: Alignment.center,
+                    //           child: Column(
+                    //             mainAxisSize: MainAxisSize.min,
+                    //             children: [
+                    //               Image.asset("images/ic_document.png"),
+                    //               const SizedBox(height: 8),
+                    //               const Text(
+                    //                 "Contract\nAgreement",
+                    //                 style: TextStyle(
+                    //                   fontWeight: FontWeight.w600,
+                    //                   fontSize: 16,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     const SizedBox(width: 16),
+                    //     Expanded(
+                    //       child: InkWell(
+                    //         onTap: () {
+                    //           getMyLastPledge(project);
+                    //         },
+                    //         child: Container(
+                    //           constraints:
+                    //               const BoxConstraints(minHeight: 140),
+                    //           padding: const EdgeInsets.all(16),
+                    //           decoration: BoxDecoration(
+                    //             borderRadius: BorderRadius.circular(16),
+                    //             border:
+                    //                 Border.all(color: COLOR.ORANGE_PRIMARY),
+                    //           ),
+                    //           alignment: Alignment.center,
+                    //           child: Column(
+                    //             mainAxisSize: MainAxisSize.min,
+                    //             children: [
+                    //               Image.asset("images/ic_pledge.png"),
+                    //               const SizedBox(height: 8),
+                    //               const Text(
+                    //                 "Pledge\nMoney",
+                    //                 style: TextStyle(
+                    //                   fontWeight: FontWeight.w600,
+                    //                   fontSize: 16,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                  )
+                ],
+              ),
+            );
           } else if (snapshot.hasError) {
             return Container();
             // return Padding(

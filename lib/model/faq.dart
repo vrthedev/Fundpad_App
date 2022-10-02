@@ -13,7 +13,7 @@ class Faq {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      '_id': id,
       'title': title,
       'content': content,
       'createdAt': createdAt,
@@ -22,7 +22,7 @@ class Faq {
 
   factory Faq.fromJson(Map<String, dynamic> map) {
     return Faq(
-      id: map['id'] ?? "",
+      id: map['_id'] ?? "",
       title: map['title'] ?? "",
       content: map['content'] ?? "",
       createdAt: (map['createdAt'] == null)

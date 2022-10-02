@@ -1,51 +1,45 @@
 class Referral {
   String id;
-  String fullname;
-  double confirmedAmount;
-  double investorPayouts;
-  double commissions;
-  DateTime createdAt;
+  String appUserName;
+  double baseAmount;
+  double amount;
+  double percentage;
+  int year;
+  int month;
 
   Referral({
     required this.id,
-    required this.fullname,
-    required this.confirmedAmount,
-    required this.investorPayouts,
-    required this.commissions,
-    required this.createdAt,
+    required this.appUserName,
+    required this.baseAmount,
+    required this.amount,
+    required this.percentage,
+    required this.year,
+    required this.month,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'fullname': fullname,
-      'confirmed_amount': confirmedAmount,
-      'investor_payouts': investorPayouts,
-      'createdAt': createdAt,
+      '_id': id,
+      'app_user_name': appUserName,
+      'base_amount': baseAmount,
+      'amount': amount,
+      'percentage': percentage,
+      'year': year,
+      'month': month,
     };
   }
 
   factory Referral.fromJson(Map<String, dynamic> map) {
-    double investor = (map['investor_payouts'] == null)
-        ? 0
-        : map['investor_payouts'].toDouble();
-    double commission = investor / 5;
-
     return Referral(
-      id: map['id'] ?? "",
-      fullname: map['fullname'] ?? "",
-      confirmedAmount: (map['confirmed_amount'] == null)
-          ? 0
-          : map['confirmed_amount'].toDouble(),
-      investorPayouts: investor,
-      commissions: commission,
-      createdAt: (map['createdAt'] == null)
-          ? DateTime(2022)
-          : (map['createdAt'] is DateTime)
-              ? map['createdAt']
-              : (map['createdAt'] is String)
-                  ? DateTime.parse(map['createdAt'])
-                  : DateTime.parse(map['createdAt'].toDate().toString()),
+      id: map['_id'] ?? "",
+      appUserName: map['app_user_name'] ?? "",
+      baseAmount:
+          (map['base_amount'] == null) ? 0 : map['base_amount'].toDouble(),
+      amount: (map['amount'] == null) ? 0 : map['amount'].toDouble(),
+      percentage:
+          (map['percentage'] == null) ? 0 : map['percentage'].toDouble(),
+      year: map['year'] ?? 0,
+      month: map['month'] ?? 0,
     );
   }
 

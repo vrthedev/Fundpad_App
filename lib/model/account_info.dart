@@ -9,6 +9,7 @@ class AccountInfo {
   List<Payout> investorPayouts;
 
   double referralSum;
+  double referralVolume;
   List<Payout> referralPayouts;
 
   AccountInfo({
@@ -16,6 +17,7 @@ class AccountInfo {
     required this.pledges,
     required this.investorSum,
     required this.referralSum,
+    required this.referralVolume,
     required this.referralPayouts,
     required this.investorPayouts,
   });
@@ -25,6 +27,7 @@ class AccountInfo {
       'pledges_sum': pledgesSum,
       'investor_payout_sum': investorSum,
       'referral_payout_sum': referralSum,
+      'referral_volume': referralVolume,
       'pledges': pledges.map((e) => e.toJson()).toList(),
       'referral_payouts': referralPayouts.map((e) => e.toJson()).toList(),
       'investor_payouts': investorPayouts.map((e) => e.toJson()).toList(),
@@ -41,6 +44,9 @@ class AccountInfo {
       referralSum: (map['referral_payout_sum'] == null)
           ? 0
           : map['referral_payout_sum'].toDouble(),
+      referralVolume: (map['referral_volume'] == null)
+          ? 0
+          : map['referral_volume'].toDouble(),
       pledges: (map['pledges'] == null)
           ? []
           : (map['pledges'] as List).map((e) => Pledge.fromJson(e)).toList(),

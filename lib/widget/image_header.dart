@@ -54,7 +54,7 @@ class ImageHeader extends StatelessWidget {
                           title,
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: 24,
+                              fontSize: 22,
                               fontFamily: GoogleFonts.poppins().fontFamily,
                               color: Colors.white),
                         ),

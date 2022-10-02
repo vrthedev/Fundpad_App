@@ -26,7 +26,7 @@ class AppUser {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      '_id': id,
       'fullname': fullname,
       'email': email,
       'referral_code': referralCode,
@@ -41,7 +41,7 @@ class AppUser {
 
   factory AppUser.fromJson(Map<String, dynamic> map) {
     return AppUser(
-      id: map['id'] ?? "",
+      id: map['_id'] ?? "",
       fullname: map['fullname'] ?? "",
       email: map['email'] ?? "",
       referralCode: map['referral_code'] ?? "",

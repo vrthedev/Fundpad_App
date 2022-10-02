@@ -1,49 +1,39 @@
 class Referee {
   String id;
-  String investorID;
-  String investorName;
-  String referrerID;
-  String referrerName;
-  double amount;
-  DateTime createdAt;
+  String fullname;
+  String email;
+  double confirmedAmount;
+  double investorPayouts;
 
   Referee({
     required this.id,
-    required this.investorID,
-    required this.investorName,
-    required this.referrerID,
-    required this.amount,
-    required this.referrerName,
-    required this.createdAt,
+    required this.fullname,
+    required this.email,
+    required this.confirmedAmount,
+    required this.investorPayouts,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'investor_id': investorID,
-      'investor_name': investorName,
-      'referrer_id': referrerID,
-      'referrer_name': referrerName,
-      'amount': amount,
-      'createdAt': createdAt,
+      '_id': id,
+      'fullname': fullname,
+      'email': email,
+      'confirmed_amount': confirmedAmount,
+      'investor_payouts': investorPayouts,
     };
   }
 
   factory Referee.fromJson(Map<String, dynamic> map) {
     return Referee(
-      id: map['id'] ?? "",
-      investorID: map['investor_id'] ?? "",
-      investorName: map['investor_name'] ?? "",
-      referrerID: map['referrer_id'] ?? "",
-      referrerName: map['referrer_name'] ?? "",
-      amount: (map['amount'] == null) ? 0 : map['amount'].toDouble(),
-      createdAt: (map['createdAt'] == null)
-          ? DateTime(2022)
-          : (map['createdAt'] is DateTime)
-              ? map['createdAt']
-              : (map['createdAt'] is String)
-                  ? DateTime.parse(map['createdAt'])
-                  : DateTime.parse(map['createdAt'].toDate().toString()),
+      id: map['_id'] ?? "",
+      fullname: map['fullname'] ?? "",
+      email: map['email'] ?? "",
+      confirmedAmount: (map['confirmed_amount'] == null)
+          ? 0
+          : map['confirmed_amount'].toDouble(),
+      investorPayouts: (map['investor_payouts'] == null)
+          ? 0
+          : map['investor_payouts'].toDouble(),
     );
   }
 

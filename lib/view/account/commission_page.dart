@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fundpad/model/payout.dart';
 import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/util.dart';
+import 'package:fundpad/view/account/referral_commissions.dart';
 import 'package:fundpad/widget/back_widget.dart';
+import 'package:fundpad/widget/image_header.dart';
+import 'package:intl/intl.dart';
 
 class CommissionPage extends StatelessWidget {
   const CommissionPage({Key? key, required this.sum, required this.payouts})
@@ -25,31 +29,32 @@ class CommissionPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
+              width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: COLOR.BLUE_PRIMARY)),
-              child: Row(
+              child: Column(
                 children: [
-                  Image.asset("images/ic_referral.png"),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text(
-                          "\$" +
-                              Util.formattedCommaString(sum.toStringAsFixed(2)),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 30,
-                          ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset("images/ic_referral.png"),
+                      const SizedBox(width: 24),
+                      Text(
+                        "\$" +
+                            Util.formattedCommaString(sum.toStringAsFixed(2)),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 30,
                         ),
-                        const Text(
-                          "Referral Balance",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                  )
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    "Total Commissions To Date",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
                 ],
               ),
             ),
@@ -106,16 +111,40 @@ class CommissionPage extends StatelessWidget {
                 Payout payout = payouts[index];
 
                 return BackWidget(
+                  callback: () {
+                    DateTime date = DateTime(payout.year, payout.month, 10);
+                    Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        builder: (context) => ImageHeader(
+                            light: "images/purple_light.png",
+                            dark: "images/purple_dark.png",
+                            title: "Referrals / Commissions",
+                            child: ReferralCommissions(date: date)),
+                      ),
+                    );
+                  },
                   child: Row(
                     children: [
                       Expanded(
                         flex: 4,
-                        child: Text(
-                          payout.profitName,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                          ),
+                        child: Column(
+                          children: [
+                            Text(
+                              DateFormat('MMMM')
+                                  .format(DateTime(0, payout.month)),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                              ),
+                            ),
+                            Text(
+                              payout.year.toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Expanded(
@@ -133,7 +162,7 @@ class CommissionPage extends StatelessWidget {
                         child: Text(
                           "\$" +
                               Util.formattedCommaString(
-                                  payout.baseAmount.toStringAsFixed(2)),
+                                  (payout.amount * 5).toStringAsFixed(2)),
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 13,

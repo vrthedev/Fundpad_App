@@ -49,6 +49,7 @@ dependencies:
   intl: ^0.17.0
   percent_indicator: ^4.2.1
   local_auth: ^2.1.2
+  month_year_picker: ^0.1.0+3
 
 dev_dependencies:
   flutter_test:

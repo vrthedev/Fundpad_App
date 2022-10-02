@@ -3,6 +3,7 @@ import 'package:fundpad/model/payout.dart';
 import 'package:fundpad/utils/const.dart';
 import 'package:fundpad/utils/util.dart';
 import 'package:fundpad/widget/back_widget.dart';
+import 'package:intl/intl.dart';
 
 class ProfitsPage extends StatelessWidget {
   const ProfitsPage({Key? key, required this.sum, required this.payouts})
@@ -29,27 +30,27 @@ class ProfitsPage extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: COLOR.ORANGE_PRIMARY)),
-              child: Row(
+              child: Column(
                 children: [
-                  Image.asset("images/ic_income.png"),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text(
-                          "\$" +
-                              Util.formattedCommaString(sum.toStringAsFixed(2)),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 30,
-                          ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset("images/ic_income.png"),
+                      const SizedBox(width: 24),
+                      Text(
+                        "\$" +
+                            Util.formattedCommaString(sum.toStringAsFixed(2)),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 30,
                         ),
-                        const Text(
-                          "My Balance",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                  )
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    "Total Profits to Date",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
                 ],
               ),
             ),
@@ -101,12 +102,24 @@ class ProfitsPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        payout.profitName,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
-                        ),
+                      Column(
+                        children: [
+                          Text(
+                            DateFormat('MMMM')
+                                .format(DateTime(0, payout.month)),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                          Text(
+                            payout.year.toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                         "\$" +
