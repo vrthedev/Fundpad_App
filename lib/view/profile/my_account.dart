@@ -216,7 +216,7 @@ class _MyAccountState extends State<MyAccount> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "USDT TRC20 (RECEIVER)\nWallet Address",
+                      "USDT ERC20 (RECEIVER)\nWallet Address",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),

@@ -142,7 +142,7 @@ class _PledgePageState extends State<PledgePage> {
         const SizedBox(height: 8),
         Center(
           child: Text(
-            "All Payments in USDT  TRC20 Only".toUpperCase(),
+            "All Payments in USDT  ERC20 Only".toUpperCase(),
             style: const TextStyle(
               color: COLOR.TEXT_RED,
               fontWeight: FontWeight.w500,
@@ -245,7 +245,7 @@ class _PledgePageState extends State<PledgePage> {
             ? Container()
             : const Center(
                 child: Text(
-                  "Once you submit a pledge amount, we will email the project's wallet address to your registered email ID. Please confirm the last 6 digits on the wallet address are: uCgHkN",
+                  "Once you submit a pledge amount, we will email the project's wallet address to your registered email ID. Please confirm the last 6 digits on the wallet address are: 409dEe",
                   style: TextStyle(
                     color: COLOR.TEXT_RED,
                     fontWeight: FontWeight.w500,
@@ -256,7 +256,7 @@ class _PledgePageState extends State<PledgePage> {
               ),
         const SizedBox(height: 8),
         const Text(
-          "Once payment is sent pledge submit your TXID below",
+          "Once Payment is sent, please submit your TXID below.",
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
@@ -352,7 +352,7 @@ class _PledgePageState extends State<PledgePage> {
         ),
         const SizedBox(height: 24),
         const Text(
-          "Please supply a USDT TRC20 Receipient Wallet Address",
+          "Please supply a USDT ERC20 Receipient Wallet Address",
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
@@ -395,7 +395,7 @@ class _PledgePageState extends State<PledgePage> {
                 : () {
                     if (_walletFormKey.currentState!.validate()) {
                       String message =
-                          "Is this USDT TRC20 wallet address?\nWe will send your paymentws to this wallet. You can change it in settings.";
+                          "Is this USDT ERC20 wallet address?\nWe will send your paymentws to this wallet. You can change it in settings.";
                       showConfirmDialog(message, () {
                         updateWallet();
                       });

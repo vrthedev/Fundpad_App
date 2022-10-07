@@ -83,7 +83,7 @@ class ReferralInfo extends StatelessWidget {
             InkWell(
               onTap: () {
                 Clipboard.setData(ClipboardData(text: code));
-                showToast("Coped to clipboard");
+                showToast("Copied to clipboard");
               },
               child: Container(
                 padding: const EdgeInsets.all(8),
