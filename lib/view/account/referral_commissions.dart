@@ -95,7 +95,7 @@ class _ReferralCommissionsState extends State<ReferralCommissions> {
 
   Widget _header() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      padding: const EdgeInsets.all(16),
       child: Row(
         children: const [
           Expanded(
@@ -135,6 +135,7 @@ class _ReferralCommissionsState extends State<ReferralCommissions> {
     }).toList();
 
     return ListView.separated(
+      padding: EdgeInsets.zero,
       itemCount: referrals.length,
       itemBuilder: (context, index) {
         Referral referral = referrals[index];

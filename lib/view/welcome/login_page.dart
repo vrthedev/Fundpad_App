@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                                 return 'Please enter password';
                               }
                               // else if (!Util.isValidatePassword(value)) {
-                              //   return '6-32 Chars: Minumum 1 Upper, 1 Lower & 1 Number';
+                              //   return '6+ Chars: 1 Upper, 1 Lower & 1 Number';
                               // }
                               return null;
                             },

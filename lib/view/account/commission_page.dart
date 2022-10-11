@@ -59,7 +59,7 @@ class CommissionPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 children: const [
                   Expanded(
@@ -106,6 +106,7 @@ class CommissionPage extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               primary: false,
               shrinkWrap: true,
+              padding: EdgeInsets.zero,
               itemCount: payouts.length,
               itemBuilder: (context, index) {
                 Payout payout = payouts[index];

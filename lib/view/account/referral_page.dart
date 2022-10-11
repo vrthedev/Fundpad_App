@@ -52,7 +52,7 @@ class ReferralPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 children: const [
                   Expanded(
@@ -100,6 +100,7 @@ class ReferralPage extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       primary: false,
                       shrinkWrap: true,
+                      padding: EdgeInsets.zero,
                       itemCount: referees.length,
                       itemBuilder: (context, index) {
                         Referee referee = referees[index];

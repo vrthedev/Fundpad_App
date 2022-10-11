@@ -163,7 +163,7 @@ class _SignupPageState extends State<SignupPage> {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter password';
                               } else if (!Util.isValidatePassword(value)) {
-                                return '6-32 Chars: Minumum 1 Upper, 1 Lower & 1 Number';
+                                return '6+ Chars: 1 Upper, 1 Lower & 1 Number';
                               }
                               return null;
                             },

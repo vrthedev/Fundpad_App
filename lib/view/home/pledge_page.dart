@@ -458,6 +458,7 @@ class _PledgePageState extends State<PledgePage> {
 
     if (result == "Success") {
       Globals.currentUser!.wallet = teWallet.text;
+      Navigator.of(context).pop();
     } else {
       showToast(result);
     }
