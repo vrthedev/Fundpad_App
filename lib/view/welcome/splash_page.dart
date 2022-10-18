@@ -37,7 +37,7 @@ class _SplashPageState extends State<SplashPage> {
           const SizedBox(height: 40),
           Image.asset(
             'images/logol1.png',
-            height: MediaQuery.of(context).size.width / 2,
+            scale: 9,
           ),
         ]),
       ),
